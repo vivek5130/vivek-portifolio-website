@@ -1,0 +1,12 @@
+node_modules
+.next
+.next/cache
+out
+next-env.d.ts
+*.tsbuildinfo
+.DS_Store
+.env*.local
+.env
+.env.local
+.next/*.imgtools
+public/vivek-portrait-compare.png
