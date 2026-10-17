@@ -34,11 +34,11 @@ function ComposeForm() {
       <div className="compose__row">
         <label>
           <span className="mono">your name</span>
-          <input value={name} onChange={(e) => setName(e.target.value)} required autoComplete="name" placeholder="Ada Lovelace" />
+          <input value={name} onChange={(e) => setName(e.target.value)} required autoComplete="name" placeholder="Alex" />
         </label>
         <label>
-          <span className="mono">company</span>
-          <input value={company} onChange={(e) => setCompany(e.target.value)} autoComplete="organization" placeholder="Analytical Engines Inc." />
+          <span className="mono">Subject</span>
+          <input value={company} onChange={(e) => setCompany(e.target.value)} autoComplete="organization" placeholder="" />
         </label>
       </div>
       <label>

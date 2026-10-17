@@ -55,7 +55,7 @@ export function Hud({ onOpenPalette }: { onOpenPalette: () => void }) {
         <a href="#hero" className="hud__brand" onClick={(e) => go(e, "hero")} aria-label="Back to top">
           <Monogram />
           <span className="hud__brand-text">
-            <strong>G. Vivek</strong>
+            <strong>Vivek</strong>
             <span className="mono dim">AI · Full Stack</span>
           </span>
         </a>

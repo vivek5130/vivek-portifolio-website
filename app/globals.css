@@ -25,7 +25,9 @@
   --font-display: var(--font-display-loaded, "Sora"), system-ui, sans-serif;
   --font-body: var(--font-body-loaded, "Inter"), system-ui, sans-serif;
   --font-mono: var(--font-mono-loaded, "JetBrains Mono"), ui-monospace, monospace;
-  --font-hero: var(--font-hero-loaded, "Outfit"), var(--font-display);
+  /* Hero font variable (used for "GANATHE VIVEK") */
+  --font-hero: var(--font-hero-loaded, "Syne"), var(--font-display);
+  --font-hero-secondary: var(--font-hero-secondary-loaded, "Cinzel"), var(--font-display);
 }
 
 /* ==========================================================================
@@ -833,39 +835,49 @@ kbd {
   align-self: center;
   position: relative;
   z-index: 2;
+  padding-left: clamp(24px, 4vw, 56px);
 }
 .hero__intro,
 .hero__details {
   position: relative;
 }
+/* ==========================================================================
+   DESKTOP: "GANATHE VIVEK" NAME TYPOGRAPHY & SIZING
+   ========================================================================== */
 .hero__name {
-  margin: 26px 0 28px;
-  font-family: var(--font-hero);
-  font-weight: 500;
-  font-size: clamp(3.2rem, 9.5vw, 8.6rem);
-  line-height: 0.9;
-  letter-spacing: -0.02em;
+  margin: 20px 0 24px;
+  font-family: var(--font-hero-secondary); /* <-- FONT FAMILY for both words (Syne) */
+  line-height: 0.91;
   text-transform: uppercase;
+  font-kerning: normal;
 }
 .hero__name-line {
   display: block;
   white-space: nowrap;
 }
+
+/* --- [1] GANATHE (First Name) - DESKTOP SIZE & WIDENESS --- */
 .hero__name-line--first {
-  font-size: 0.5em;
-  font-weight: 400;
-  letter-spacing: 0.18em;
-  color: #dfe8ff;
-  margin-bottom: 0.1em;
+  font-size: clamp(3.4rem, 5vw, 4.4rem); /* <-- CHANGE GANATHE DESKTOP SIZE HERE */
+  font-weight: 700;                     /* <-- GANATHE WEIGHT: 600, 700, 800 */
+  letter-spacing: 0.035em;               /* <-- GANATHE WIDENESS (LETTER SPACING) */
+  color: #e5efff;
+  margin-bottom: 0.08em;
+  text-shadow: 0 0 22px rgba(120, 170, 255, 0.14);
 }
+
+/* --- [2] VIVEK (Last Name) - DESKTOP SIZE & WIDENESS --- */
 .hero__name-line--accent {
-  font-weight: 400;
-  letter-spacing: -0.01em;
-  background: linear-gradient(180deg, #f2fdff 8%, var(--cyan) 58%, #3a7dff 100%);
+  font-size: clamp(3.8rem, 6.8vw, 8rem); /* <-- CHANGE VIVEK DESKTOP SIZE HERE */
+  font-weight: 800;                     /* <-- VIVEK WEIGHT: 700, 800 */
+  letter-spacing: 0.8rem;              /* <-- VIVEK WIDENESS (LETTER SPACING) */
+  line-height: 1.1;
+  background: linear-gradient(180deg, #ffffff 15%, #4ee8ff 62%, #2f7bff 100%);
   -webkit-background-clip: text;
+  font-family: var(--font-hero-secondary);
   background-clip: text;
   color: transparent;
-  filter: drop-shadow(0 0 20px rgba(62, 231, 255, 0.22));
+  filter: drop-shadow(0 0 28px rgba(62, 231, 255, 0.32)) drop-shadow(0 3px 14px rgba(47, 123, 255, 0.2));
 }
 .hero__lede {
   max-width: 36ch;
@@ -951,6 +963,7 @@ kbd {
   border-top: 1px solid var(--line);
   position: relative;
   z-index: 2;
+  padding-left: clamp(24px, 4vw, 56px);
 }
 .metric {
   padding: 18px 18px 0 0;
@@ -983,7 +996,7 @@ kbd {
 
 .scroll-cue {
   position: absolute;
-  left: calc(-1 * var(--gutter) + 12px);
+  left: clamp(4px, 1vw, 14px);
   bottom: 40px;
   display: flex;
   flex-direction: column;
@@ -2656,66 +2669,104 @@ kbd {
     display: flex;
     flex-direction: column;
     min-height: auto;
+    padding-top: clamp(86px, 12vh, 108px);
     padding-bottom: 28px;
+    align-items: center;
+    text-align: center;
+    overflow-x: hidden;
   }
   .hero__copy {
     display: contents;
+    padding-left: 0;
   }
   .hero__intro {
     order: 1;
     max-width: 100%;
     text-align: center;
+    width: 100%;
   }
   .hero__intro .eyebrow {
     justify-content: center;
   }
   .hero__portrait {
     order: 2;
-    width: min(320px, 72vw);
-    margin: 6px auto 10px;
+    width: min(200px, 52vw);
+    margin: 8px auto 12px;
   }
   .hero__details {
     order: 3;
     text-align: center;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
   }
   .hero__metrics {
     order: 4;
+    padding-left: 0;
     grid-template-columns: repeat(2, minmax(0, 1fr));
-    margin-top: 28px;
+    margin-top: 26px;
+    width: 100%;
+    gap: 8px;
   }
-  /* Single-line name so it can stay larger and balanced on narrow screens. */
+  /* ==========================================================================
+     TABLET (max-width: 980px): "GANATHE VIVEK" TYPOGRAPHY & SIZING
+     ========================================================================== */
   .hero__name {
     display: flex;
-    flex-wrap: nowrap;
-    align-items: baseline;
+    flex-direction: column;
+    align-items: center;
     justify-content: center;
-    gap: 0.22em;
+    gap: 0.06em;
     width: 100%;
-    font-size: clamp(1.9rem, 8.4vw, 2.85rem);
-    letter-spacing: -0.02em;
-    margin: 14px 0 10px;
-    line-height: 1;
+    margin: 12px 0 10px;
+    line-height: 0.94;
+    text-align: center;
   }
   .hero__name-line {
-    display: inline-block;
+    display: block;
+    white-space: normal;
   }
+  /* --- GANATHE (First Name) - TABLET SIZE & WIDENESS --- */
   .hero__name-line--first {
-    font-size: 0.92em;
-    font-weight: 400;
-    letter-spacing: 0.08em;
+    font-size: clamp(1.65rem, 6.2vw, 2.6rem); /* <-- CHANGE GANATHE TABLET SIZE HERE */
+    font-weight: 700;                        /* <-- GANATHE TABLET WEIGHT */
+    letter-spacing: 0.05em;                  /* <-- GANATHE TABLET WIDENESS */
     margin-bottom: 0;
+    color: #e5efff;
   }
+  /* --- VIVEK (Last Name) - TABLET SIZE & WIDENESS --- */
   .hero__name-line--accent {
-    font-size: 1em;
-    letter-spacing: -0.01em;
+    font-size: clamp(2.45rem, 9.2vw, 3.8rem); /* <-- CHANGE VIVEK TABLET SIZE HERE */
+    font-weight: 800;                        /* <-- VIVEK TABLET WEIGHT */
+    letter-spacing: -0.01em;                 /* <-- VIVEK TABLET WIDENESS */
   }
   .hero__lede {
-    max-width: none;
-    min-height: 4.8em;
+    max-width: 44ch;
+    min-height: 4.4em;
     margin-inline: auto;
-    font-size: clamp(1.05rem, 3.4vw, 1.25rem);
+    font-size: clamp(1.02rem, 3.2vw, 1.2rem);
+    line-height: 1.5;
+    text-align: center;
   }
   .hero__status {
+    justify-content: center;
+    margin-top: 16px;
+    gap: 8px;
+  }
+  .hero__cta {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    margin-top: 22px;
+    width: 100%;
+  }
+  .hero__cta .btn {
+    flex: 0 1 auto;
+    min-width: 148px;
     justify-content: center;
   }
   .metric:nth-child(3) {
@@ -2724,7 +2775,7 @@ kbd {
   }
   .metric:nth-child(n + 3) {
     border-top: 1px solid var(--line);
-    margin-top: 18px;
+    margin-top: 14px;
   }
   .scroll-cue {
     display: none;
@@ -2752,61 +2803,84 @@ kbd {
     font-size: 16px;
   }
   .hud {
-    padding: 10px var(--gutter);
+    padding: 8px var(--gutter);
+  }
+  .hud.is-scrolled {
+    background: linear-gradient(180deg, rgba(4, 9, 21, 0.96) 0%, rgba(4, 9, 21, 0.75) 85%, transparent 100%);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
   }
   .hud__brand-text .mono,
   .hud__cmd {
     display: none;
   }
   .hero {
-    padding-top: 92px;
+    padding-top: 86px;
     padding-bottom: 20px;
   }
+  /* ==========================================================================
+     MOBILE (max-width: 760px): "GANATHE VIVEK" TYPOGRAPHY & SIZING
+     ========================================================================== */
   .hero__name {
-    font-size: clamp(1.7rem, 7.6vw, 2.35rem);
-    gap: 0.18em;
-    margin: 12px 0 8px;
+    margin: 10px 0 8px;
+    gap: 0.04em;
   }
+  /* --- GANATHE (First Name) - MOBILE SIZE & WIDENESS --- */
   .hero__name-line--first {
-    font-size: 0.9em;
-    letter-spacing: 0.06em;
+    font-size: clamp(1.45rem, 5.8vw, 2.1rem); /* <-- CHANGE GANATHE MOBILE SIZE HERE */
+    letter-spacing: 0.05em;                  /* <-- GANATHE MOBILE WIDENESS */
+    font-weight: 700;
+    color: #e5efff;
   }
+  /* --- VIVEK (Last Name) - MOBILE SIZE & WIDENESS --- */
   .hero__name-line--accent {
-    filter: drop-shadow(0 0 14px rgba(62, 231, 255, 0.2));
+    font-size: clamp(2.2rem, 8.8vw, 3.3rem);  /* <-- CHANGE VIVEK MOBILE SIZE HERE */
+    font-weight: 800;                        /* <-- VIVEK MOBILE WEIGHT */
+    letter-spacing: -0.01em;                 /* <-- VIVEK MOBILE WIDENESS */
+    filter: drop-shadow(0 0 18px rgba(62, 231, 255, 0.28));
   }
   .hero__lede {
-    font-size: 1.02rem;
-    line-height: 1.45;
+    font-size: 0.98rem;
+    line-height: 1.48;
+    min-height: 4.4em;
+    padding-inline: 6px;
   }
   .hero__status {
-    margin-top: 18px;
-    gap: 8px;
+    margin-top: 14px;
+    gap: 6px;
   }
   .status-pill {
     font-size: 0.78rem;
     padding: 5px 11px;
   }
   .hero__cta {
-    margin-top: 22px;
-    flex-direction: column;
-    align-items: stretch;
+    margin-top: 20px;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
   }
   .hero__cta .btn {
-    width: 100%;
+    flex: 1 1 135px;
+    max-width: 190px;
+    padding: 10px 14px;
+    font-size: 0.86rem;
     justify-content: center;
   }
   .hero__portrait {
-    width: min(280px, 74vw);
-    margin: 4px auto 8px;
+    width: min(180px, 48vw);
+    margin: 6px auto 10px;
   }
   .hero__metrics {
     margin-top: 22px;
+    padding-left: 0;
   }
   .metric {
-    padding: 14px 12px 0 0;
+    padding: 12px 10px 0 0;
   }
   .metric + .metric {
-    padding-left: 12px;
+    padding-left: 10px;
   }
   .metric__value {
     font-size: clamp(1.45rem, 7vw, 1.9rem);
@@ -2835,6 +2909,17 @@ kbd {
   .console__bar .dim {
     display: none;
   }
+  .console__prompts {
+    padding: 14px 14px 0;
+    gap: 6px;
+  }
+  .console__prompts button {
+    padding: 6px 11px;
+    font-size: 0.78rem;
+  }
+  .console__body {
+    padding: 14px 14px 18px;
+  }
   .projects__grid > .project {
     grid-column: 1 / -1;
   }
@@ -2852,7 +2937,10 @@ kbd {
   }
   .techgraph {
     aspect-ratio: 1 / 1.15;
-    margin: 12px 18px 30px;
+    margin: 12px 0 30px;
+    width: 100%;
+    max-width: 100%;
+    overflow: hidden;
   }
   .tg-node__icon {
     width: 38px;
