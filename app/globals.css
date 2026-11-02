@@ -1975,7 +1975,7 @@ kbd {
    ========================================================================== */
 .exp__grid {
   display: grid;
-  grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+  grid-template-columns: minmax(0, 4fr) minmax(0, 8fr);
   gap: clamp(28px, 4vw, 60px);
   align-items: start;
 }
@@ -1997,19 +1997,24 @@ kbd {
   align-items: center;
 }
 
+/* White circle so the brand's purple mark reads on the dark card; shows the full logo, ring text included. */
 .company__logo {
   display: grid;
   place-items: center;
   flex: none;
-  width: 52px;
-  height: 52px;
-  border-radius: 14px;
-  font-family: var(--font-display);
-  font-weight: 800;
-  font-size: 1.6rem;
-  color: var(--bg);
-  background: linear-gradient(135deg, var(--cyan), var(--blue));
-  box-shadow: 0 0 30px -6px rgba(62, 231, 255, 0.6);
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  overflow: hidden;
+  background: #fff;
+  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.1), 0 8px 24px -10px rgba(62, 231, 255, 0.5);
+}
+
+.company__logo img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  transform: scale(0.82);
 }
 
 .company__role {
@@ -2053,190 +2058,239 @@ kbd {
   margin-right: 4px;
 }
 
-.filters {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 6px;
-  padding: 5px;
-  border-radius: 999px;
+/* Key results card under the company card */
+.results {
+  padding: 20px 22px;
   border: 1px solid var(--line);
-  background: rgba(8, 17, 40, 0.6);
-  width: fit-content;
-  max-width: 100%;
-}
-
-.filters button {
-  position: relative;
-  padding: 7px 14px;
-  border-radius: 999px;
-  font-size: 0.85rem;
-  color: var(--muted);
-  transition: color 0.25s;
-}
-
-.filters__label {
-  position: relative;
-  z-index: 1;
-}
-
-.filters button.is-active {
-  color: var(--bg);
-  font-weight: 700;
-}
-
-.filters__pill {
-  position: absolute;
-  inset: 0;
-  border-radius: 999px;
-  background: var(--cyan);
-  box-shadow: 0 0 20px -4px rgba(62, 231, 255, 0.7);
-}
-
-.figure {
-  padding: 16px;
   border-radius: var(--radius);
-  border: 1px solid var(--line);
-  background: rgba(6, 13, 32, 0.6);
+  background: rgba(3, 8, 20, 0.85);
 }
 
-.sysmap {
-  width: 100%;
-  height: auto;
-  display: block;
-}
-
-.sysmap__grid {
-  stroke: rgba(120, 170, 255, 0.06);
-  stroke-width: 0.5;
-}
-
-.sysmap__arrow {
-  fill: var(--cyan);
-}
-
-.sysmap__lane {
-  opacity: 0.25;
-  transition: opacity 0.5s var(--ease);
-}
-
-.sysmap__lane.is-on {
-  opacity: 1;
-}
-
-.sysmap__lane-label {
-  font-family: var(--font-mono);
-  font-size: 9px;
-  letter-spacing: 0.1em;
+.results__label {
+  font-size: 0.62rem;
+  letter-spacing: 0.14em;
   text-transform: uppercase;
-  fill: var(--orange);
+  color: var(--dim);
+  margin-bottom: 12px;
 }
 
-.sysmap__node {
-  fill: #0b1838;
-  stroke: var(--line-strong);
-  stroke-width: 1;
-}
-
-.sysmap__node--core {
-  stroke: var(--cyan);
-  fill: #0d2048;
-}
-
-.sysmap__text {
-  font-family: var(--font-mono);
-  font-size: 8.6px;
-  fill: var(--text);
-}
-
-.sysmap__flow {
-  fill: none;
-  stroke: rgba(62, 231, 255, 0.55);
-  stroke-width: 1;
-  stroke-dasharray: 3 4;
-  animation: dash 1.2s linear infinite;
-}
-
-.sysmap__link {
-  fill: none;
-  stroke: rgba(255, 138, 61, 0.25);
-  stroke-width: 1;
-  stroke-dasharray: 2 3;
-  transition: stroke 0.4s;
-}
-
-.sysmap__link.is-on {
-  stroke: rgba(255, 138, 61, 0.75);
-}
-
-.sysmap__packet {
-  fill: var(--cyan);
-  filter: drop-shadow(0 0 4px var(--cyan));
-}
-
-.sysmap__packet--hot {
-  fill: var(--orange);
-  filter: drop-shadow(0 0 4px var(--orange));
-}
-
-@keyframes dash {
-  to {
-    stroke-dashoffset: -14;
-  }
-}
-
-.achievements {
+.results ul {
   display: grid;
+  gap: 10px;
+}
+
+.results li {
+  display: grid;
+  grid-template-columns: 4.2ch minmax(0, 1fr);
+  align-items: baseline;
   gap: 12px;
 }
 
-.achievement {
+.results__value {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 1.15rem;
+  color: var(--cyan);
+}
+
+.results__what {
+  display: flex;
+  flex-direction: column;
+  font-size: 0.9rem;
+  line-height: 1.35;
+  color: var(--text);
+}
+
+.results__what .dim {
+  font-size: 0.78rem;
+}
+
+/* Timeline: a vertical line with one node per role, newest first */
+.tl {
+  position: relative;
   display: grid;
-  grid-template-columns: 44px minmax(0, 1fr);
-  gap: 8px;
-  padding: 22px 22px 22px 16px;
+  padding-left: 34px;
+}
+
+.tl::before {
+  content: "";
+  position: absolute;
+  left: 8px;
+  top: 28px;
+  bottom: 28px;
+  width: 2px;
+  border-radius: 2px;
+  background: linear-gradient(var(--cyan), rgba(62, 231, 255, 0.35) 55%, rgba(62, 231, 255, 0.12));
+}
+
+.tl__item {
+  position: relative;
+}
+
+.tl__dot {
+  position: absolute;
+  left: -34px;
+  top: 28px;
+  z-index: 1;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  border: 2px solid rgba(62, 231, 255, 0.6);
+  background: var(--bg);
+}
+
+.tl__dot.is-current {
+  border-color: var(--cyan);
+  background: var(--cyan);
+  box-shadow: 0 0 0 5px rgba(62, 231, 255, 0.14), 0 0 16px rgba(62, 231, 255, 0.7);
+}
+
+.tl__card {
+  padding: clamp(20px, 2.6vw, 28px);
+  border: 1px solid var(--line-strong);
   border-radius: var(--radius);
-  border: 1px solid var(--line);
-  background: rgba(8, 17, 40, 0.55);
-  backdrop-filter: blur(10px);
-  transition: border-color 0.3s, background 0.3s, transform 0.4s var(--ease);
+  background: rgba(3, 8, 20, 0.9);
+  box-shadow: 0 30px 60px -30px rgba(0, 0, 0, 0.8);
 }
 
-.achievement:hover {
-  border-color: var(--line-strong);
-  background: rgba(12, 25, 56, 0.7);
-  transform: translateX(4px);
-}
-
-.achievement__n {
-  color: var(--orange);
-  padding-top: 5px;
-}
-
-.achievement__head {
+.tl__head {
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
-  align-items: baseline;
-  gap: 8px 16px;
-  margin-bottom: 8px;
+  align-items: flex-start;
+  gap: 8px 20px;
 }
 
-.achievement h3 {
+.tl__title {
   font-family: var(--font-display);
-  font-size: 1.2rem;
+  font-size: clamp(1.15rem, 1.6vw, 1.35rem);
   font-weight: 700;
+  line-height: 1.3;
 }
 
-.achievement p {
+.tl__badge {
+  display: inline-block;
+  margin-top: 8px;
+  padding: 3px 10px;
+  border-radius: 999px;
+  border: 1px solid var(--line-strong);
+  font-family: var(--font-mono);
+  font-size: 0.64rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
   color: var(--muted);
-  font-size: 0.96rem;
 }
 
-.achievement__tags {
+.tl__badge.is-current {
+  border-color: rgba(62, 231, 255, 0.5);
+  background: var(--cyan-soft);
+  color: var(--cyan);
+}
+
+.tl__period {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 2px;
+  font-size: 0.8rem;
+  text-transform: none;
+  color: var(--text);
+}
+
+.tl__focus {
+  display: flex;
+  gap: 10px;
+  align-items: baseline;
+  margin-top: 16px;
+  font-size: 0.93rem;
+  color: var(--muted);
+}
+
+.tl__focus .mono {
+  flex: none;
+  font-size: 0.62rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--orange);
+}
+
+.tl__list {
+  display: grid;
+  gap: 18px;
+  margin-top: 18px;
+  padding-top: 20px;
+  border-top: 1px solid var(--line);
+}
+
+.tl__point {
+  position: relative;
+  padding-left: 18px;
+}
+
+.tl__point::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0.62em;
+  width: 6px;
+  height: 6px;
+  border-radius: 2px;
+  background: var(--cyan);
+  opacity: 0.8;
+}
+
+.tl__point p {
+  font-size: 0.95rem;
+  line-height: 1.6;
+  color: #b8c4e2;
+}
+
+.tl__point strong {
+  font-weight: 600;
+  color: var(--text);
+}
+
+.tl__foot {
   display: flex;
   flex-wrap: wrap;
-  gap: 6px;
-  margin-top: 14px;
+  align-items: center;
+  gap: 6px 12px;
+  margin-top: 8px;
+}
+
+.tl__foot .impact {
+  padding: 2px 8px;
+  font-size: 0.7rem;
+}
+
+.tl__stack {
+  font-size: 0.7rem;
+  text-transform: none;
+  color: var(--dim);
+}
+
+/* "Converted to full-time" marker on the line between the two roles */
+.tl__milestone {
+  position: relative;
+  display: flex;
+  align-items: center;
+  padding: 22px 0;
+  font-size: 0.72rem;
+  color: var(--orange);
+}
+
+.tl__milestone .mono {
+  text-transform: none;
+}
+
+.tl__milestone-mark {
+  position: absolute;
+  left: -30px;
+  width: 10px;
+  height: 10px;
+  transform: rotate(45deg);
+  border: 2px solid var(--orange);
+  background: var(--bg);
 }
 
 /* ==========================================================================
@@ -2297,28 +2351,13 @@ kbd {
   box-shadow: 0 30px 80px -40px rgba(62, 231, 255, 0.45);
 }
 
-.project--0 {
-  grid-column: span 7;
-}
-
-.project--1 {
-  grid-column: span 5;
-}
-
-.project--2 {
-  grid-column: span 5;
-}
-
-.project--3 {
-  grid-column: span 7;
-}
-
-.project--4 {
+/* Two cards per row; an odd card left over on the last row sits centred. */
+.projects__grid>.project {
   grid-column: span 6;
 }
 
-.project--5 {
-  grid-column: span 6;
+.projects__grid>.project:last-child:nth-child(odd) {
+  grid-column: 4 / span 6;
 }
 
 .project__top {
@@ -3803,7 +3842,8 @@ kbd {
     height: 72px;
   }
 
-  .projects__grid>.project {
+  .projects__grid>.project,
+  .projects__grid>.project:last-child:nth-child(odd) {
     grid-column: 1 / -1;
   }
 
@@ -3868,9 +3908,26 @@ kbd {
     display: none;
   }
 
-  .achievement {
-    grid-template-columns: minmax(0, 1fr);
-    padding: 18px;
+  .tl {
+    padding-left: 26px;
+  }
+
+  .tl::before {
+    left: 6px;
+  }
+
+  .tl__dot {
+    left: -26px;
+    width: 16px;
+    height: 16px;
+  }
+
+  .tl__milestone-mark {
+    left: -23px;
+  }
+
+  .tl__period {
+    align-items: flex-start;
   }
 
   .footer {

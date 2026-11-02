@@ -47,94 +47,100 @@ export const metrics: Metric[] = [
   { value: 1, suffix: "", label: "Research paper", source: "Published · NLP" },
 ];
 
-export type Track = "genai" | "growth" | "platform";
+export type Highlight = { title: string; text: string; impact?: string; stack: string[] };
 
-export const trackMeta: Record<Track, { label: string; blurb: string }> = {
-  genai: { label: "GenAI & RAG", blurb: "LLM agents, retrieval and code generation" },
-  growth: { label: "Meta & Growth", blurb: "Graph API, ads and messaging automation" },
-  platform: { label: "Platform", blurb: "Multi-tenant infrastructure and data" },
-};
-
-export type Achievement = {
+export type Role = {
   title: string;
-  detail: string;
-  track: Track;
-  impact?: string;
-  stack: string[];
+  type: "Full-time" | "Internship";
+  start: string;
+  /** Omitted for the current role. */
+  end?: string;
+  period: string;
+  focus: string;
+  highlights: Highlight[];
 };
 
 export const experience = {
   company: "Zithara.AI",
-  role: "Software Development Engineer",
-  start: "2025-05-01",
-  period: "May 2025 — Present",
   location: "Hyderabad",
   context: "AI-first CRM platform for retail brands",
-  achievements: [
+  /** First day at the company (internship start). */
+  start: "2025-05-01",
+  period: "May 2025 — Present",
+  /** Current role, used in short intros. */
+  role: "Software Development Engineer",
+  roles: [
     {
-      title: "Omnichannel Conversational AI",
-      detail:
-        "Built intelligent conversational agents using LangChain, Langgraph and RAG, with product-search tools, intent scoring, automated and human-assisted replies, and seamless AI-to-human handoff.",
-      track: "genai",
-      impact: "−50% avg. handling time",
-      stack: ["LangChain", "Qdrant", "Semantic search"],
+      title: "Software Development Engineer",
+      type: "Full-time",
+      start: "2025-08-01",
+      period: "Aug 2025 — Present",
+      focus: "Conversational AI, AI-powered CRM features, Meta integrations and backend engineering.",
+      highlights: [
+        {
+          title: "Conversational AI agents",
+          text: "Built production AI agents with LangChain, RAG and semantic search that give context-aware replies and hand off smoothly to a human. They run in Shadow Mode, suggesting replies to support agents, or Live Mode, answering customers directly.",
+          impact: "−50% handling time",
+          stack: ["LangChain", "LangGraph", "RAG", "Qdrant"],
+        },
+        {
+          title: "NL2SQL reporting engine",
+          text: "Built a reporting engine that turns plain-English questions into SQL, so businesses can pull CRM reports without writing a single query.",
+          impact: "−70% manual reporting",
+          stack: ["LangChain", "RAG", "PostgreSQL"],
+        },
+        {
+          title: "AI Excel insights",
+          text: "Created an engine that reads uploaded spreadsheets, writes analysis code from a natural-language question and returns the right charts.",
+          stack: ["Python", "LLM codegen", "Charts"],
+        },
+        {
+          title: "Meta Ads integration",
+          text: "Integrated Meta Ads end to end — campaign data, ad creatives, custom audiences built from segments, offline conversion tracking through the Conversions API, and performance reporting.",
+          stack: ["Meta Marketing API", "Conversions API"],
+        },
+        {
+          title: "Multi-tenant email builder",
+          text: "Developed a drag-and-drop email template builder on GrapeJS and AWS SES that lets every business on the platform design and send its own campaigns.",
+          stack: ["GrapeJS", "AWS SES", "React"],
+        },
+        {
+          title: "Bulk data import",
+          text: "Reworked CRM import and processing pipelines to remove bottlenecks, so large customer datasets load reliably and much faster.",
+          stack: ["Node.js", "PostgreSQL"],
+        },
+      ],
     },
     {
-      title: "Natural Language to SQL (NL2SQL)",
-      detail:
-        "Built an AI-powered reporting engine using LangChain and RAG, allowing businesses to retrieve CRM insights and generate dynamic reports simply by asking questions in natural language",
-      track: "genai",
-      impact: "−70% manual reporting",
-      stack: ["LangChain", "RAG", "PostgreSQL"],
+      title: "Full Stack Developer Intern",
+      type: "Internship",
+      start: "2025-05-01",
+      end: "2025-08-01",
+      period: "May 2025 — Aug 2025",
+      focus: "Meta messaging automation and GenAI-powered bot flows.",
+      highlights: [
+        {
+          title: "Instagram automation",
+          text: "Built Instagram automation on the Meta Graph API — automated replies, quick replies and interactive messages that keep customers engaged.",
+          impact: "+60% engagement",
+          stack: ["Meta Graph API", "Node.js"],
+        },
+        {
+          title: "AI bot-flow generation",
+          text: "Used LangGraph to generate conversational bot flows automatically from a business's requirements, replacing hand-built flows.",
+          stack: ["LangGraph", "LangChain"],
+        },
+        {
+          title: "GenAI WhatsApp templates",
+          text: "Integrated Meta APIs for WhatsApp template creation and used GenAI to write context-rich templates for automated customer messages.",
+          stack: ["Meta APIs", "GenAI", "Prompt engineering"],
+        },
+      ],
     },
-    {
-      title: "AI-Powered Excel Insights",
-      detail:
-        "Built an AI-powered spreadsheet analysis engine that understands natural-language questions, generates code to analyse uploaded data, and creates relevant visualisations.",
-      track: "genai",
-      impact: "−70% manual reporting",
-      stack: ["LLM codegen", "Python", "Charts"],
-    },
-    {
-      title: "Instagram automation",
-      detail:
-        "Integrated Meta Graph API with LangChain-powered bot flows to automate Instagram conversations, handle customer queries, and deliver contextual responses",
-      track: "growth",
-      impact: "+60% engagement",
-      stack: ["Meta Graph API", "LangChain", "Node.js"],
-    },
-    {
-      title: "Meta Ads and Conversion Tracking",
-      detail:
-        "Integrated Meta Marketing APIs to manage custom audiences, capture leads from messaging ads and instant forms, track offline conversions through CAPI, and analyse ROAS, daily performance, and attribution breakdowns.",
-      track: "growth",
-      stack: ["Meta Ads", "Conversion API", "Segmentation"],
-    },
-    {
-      title: "Multi-tenant email builder",
-      detail:
-        "Developed a drag-and-drop email template builder on GrapeJS and AWS SES,allowing businesses to design, manage, and send email campaigns from a shared platform.",
-      track: "platform",
-      stack: ["GrapeJS", "AWS SES", "Multi-tenant"],
-    },
-    {
-      title: "GenAI WhatsApp templates",
-      detail:
-        "Designed and Built an end-to-end WhatsApp template generation workflow integrating GenAI and Meta APIs, enabling merchants to generate contextual templates easily.",
-      track: "genai",
-      stack: ["GenAI", "Prompt engineering", "React"],
-    },
-    {
-      title: "Bulk import pipeline",
-      detail:
-        "Optimised CRM data import and processing workflows, removing bottlenecks for large operational datasets.",
-      track: "platform",
-      stack: ["Node.js", "PostgreSQL", "Batching"],
-    },
-  ] satisfies Achievement[],
+  ] satisfies Role[],
 };
 
-export type ProjectKind = "nl2sql" | "agents" | "insights" | "shopping" | "exam" | "agri";
+export type ProjectKind = "nl2sql" | "agents" | "metaads" | "shopping" | "exam" | "agri";
 
 export type Project = {
   id: ProjectKind;
@@ -173,14 +179,14 @@ export const projects: Project[] = [
     context: "Zithara.AI · production",
   },
   {
-    id: "insights",
+    id: "metaads",
     code: "SYS-03",
-    title: "Excel Insights Engine",
-    tagline: "Turn spreadsheets into actionable insights.",
+    title: "Meta Ads & Conversion Tracking",
+    tagline: "Connecting ad spend to real sales.",
     description:
-      "Developed an AI-powered tool that analyses uploaded spreadsheets, generates Python code from natural-language questions, and creates relevant charts and visualisations.",
-    stack: ["Langchain", "Langgraph", "Python", "React"],
-    outcome: "70% less manual reporting",
+      "Integrated Meta's marketing APIs into the CRM: synced campaign data and ad creatives, built custom audiences from customer segments, captured leads from messaging ads and instant forms, and sent offline sales back through the Conversions API — so businesses can see ROAS, daily performance and attribution in one place.",
+    stack: ["Meta Marketing API", "Conversions API", "Custom Audiences", "Lead Ads"],
+    outcome: "Offline sales tracked to ads",
     context: "Zithara.AI · production",
   },
   {

@@ -120,10 +120,12 @@ const COMMANDS: Command[] = [
     desc: "Where I work and what I've built",
     run: () =>
       out(
-        [s(experience.role, "head"), s(" @ "), s(experience.company, "cyan")],
-        [s(`${experience.period} · ${experience.location} · ${experience.context}`, "dim")],
-        blank,
-        ...experience.achievements.map((a): Line => [s("  ✓ ", "ok"), s(a.title), ...(a.impact ? [s(`  ${a.impact}`, "orange")] : [])]),
+        [s(experience.company, "cyan"), s(` · ${experience.location} · ${experience.context}`, "dim")],
+        ...experience.roles.flatMap((r): Line[] => [
+          blank,
+          [s(r.title, "head"), s(`  ${r.type} · ${r.period}`, "dim")],
+          ...r.highlights.map((h): Line => [s("  ✓ ", "ok"), s(h.title), ...(h.impact ? [s(`  ${h.impact}`, "orange")] : [])]),
+        ]),
       ),
   },
   {
