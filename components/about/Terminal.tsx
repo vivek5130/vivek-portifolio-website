@@ -179,7 +179,7 @@ const COMMANDS: Command[] = [
   },
   {
     name: "resume",
-    desc: "Download my résumé (PDF)",
+    desc: "Download my resume (PDF)",
     run: () => out([s("↓ ", "ok"), { t: profile.resume.slice(1), c: "cyan", href: profile.resume, download: true }, s("  — click to download", "dim")]),
   },
   {

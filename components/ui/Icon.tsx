@@ -119,6 +119,12 @@ const paths: Record<IconName, React.ReactNode> = {
   ),
   close: <path d="M5.5 5.5l13 13M18.5 5.5l-13 13" />,
   menu: <path d="M4 7h16M4 12h10M4 17h16" />,
+  shield: (
+    <>
+      <path d="M12 3 19 6v5.5c0 4.3-2.9 8-7 9.5-4.1-1.5-7-5.2-7-9.5V6l7-3Z" />
+      <path d="m9 12 2 2 4-4" />
+    </>
+  ),
 };
 
 type Props = { name: IconName; size?: number; className?: string; strokeWidth?: number };

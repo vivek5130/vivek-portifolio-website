@@ -87,7 +87,7 @@ export function resumeContext() {
     `Coursework: ${education.coursework.join(", ")}.`,
     "",
     "## Certifications & achievements",
-    ...credentials.map((c) => `- ${c.title} — ${c.issuer}`),
+    ...credentials.map((c) => `- ${c.title} — ${c.issuer}${c.href ? ` (verify: ${c.href})` : ""}`),
     "",
     "## Additional notes from Vivek",
     extraContext.trim(),

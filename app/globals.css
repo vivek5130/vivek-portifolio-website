@@ -28,6 +28,7 @@
   /* Hero font variable (used for "GANATHE VIVEK") */
   --font-hero: var(--font-hero-loaded, "Syne"), var(--font-display);
   --font-hero-secondary: var(--font-hero-secondary-loaded, "Cinzel"), var(--font-display);
+  --font-quote: var(--font-quote-loaded, "Playfair Display"), Georgia, serif;
 }
 
 /* ==========================================================================
@@ -198,6 +199,10 @@ img {
   transform: rotate(-90deg);
 }
 
+.rot-180 {
+  transform: rotate(180deg);
+}
+
 /* ==========================================================================
    Atmosphere layers
    ========================================================================== */
@@ -308,23 +313,7 @@ em {
   color: transparent;
 }
 
-.eyebrow {
-  display: inline-flex;
-  align-items: center;
-  gap: 10px;
-  font-family: var(--font-mono);
-  font-size: 0.74rem;
-  letter-spacing: 0.16em;
-  text-transform: uppercase;
-  color: var(--muted);
-}
 
-.eyebrow__dot {
-  width: 22px;
-  height: 1px;
-  background: var(--orange);
-  box-shadow: 0 0 10px var(--orange);
-}
 
 .lead {
   font-size: clamp(1.1rem, 1.5vw, 1.32rem);
@@ -1073,14 +1062,88 @@ kbd {
   }
 }
 
+/* Availability + current role, above the name */
+.hero__badge {
+  display: inline-flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: 8px 12px;
+  padding: 6px 14px;
+  border: 1px solid var(--line-strong);
+  border-radius: 999px;
+  background: rgba(10, 20, 45, 0.6);
+  font-size: 0.82rem;
+  color: var(--muted);
+}
+
+.hero__badge-open,
+.hero__badge-work {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.hero__badge-open {
+  color: var(--text);
+  font-weight: 500;
+}
+
+.hero__badge-open .live-dot {
+  width: 7px;
+  height: 7px;
+  background: #4ade80;
+  animation-name: live-green;
+}
+
+@keyframes live-green {
+  0% {
+    box-shadow: 0 0 0 0 rgba(74, 222, 128, 0.55);
+  }
+
+  100% {
+    box-shadow: 0 0 0 8px rgba(74, 222, 128, 0);
+  }
+}
+
+.hero__badge-sep {
+  width: 1px;
+  height: 14px;
+  background: var(--line-strong);
+}
+
+/* Tiny logo: cropped to the Z mark, since the ring text can't be read at this size. */
+.hero__badge-logo {
+  display: block;
+  flex: none;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  overflow: hidden;
+  background: #fff;
+}
+
+.hero__badge-logo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transform: scale(1.6);
+  transform-origin: 52% 46%;
+}
+
 .hero__lede {
-  max-width: 46ch;
+  max-width: 74ch;
   margin-inline: auto;
-  min-height: 4.5em;
+  text-wrap: balance;
   font-size: clamp(1.15rem, 1.7vw, 1.45rem);
   line-height: 1.6;
   color: var(--muted);
   position: relative;
+}
+
+.hero__lede strong {
+  font-weight: 600;
+  color: var(--text);
 }
 
 .hero__lede em {
@@ -1090,60 +1153,11 @@ kbd {
   /* no glow shadow on lede text */
 }
 
-.hero__caret {
-  display: inline-block;
-  width: 2px;
-  height: 1.1em;
-  margin-left: 0.1em;
-  vertical-align: -0.14em;
-  background: linear-gradient(180deg, var(--cyan), var(--blue));
-  border-radius: 2px;
-  box-shadow: 0 0 8px var(--cyan);
-  animation: caret-blink 0.9s steps(1) infinite;
-}
 
-@keyframes caret-blink {
 
-  0%,
-  45% {
-    opacity: 1;
-  }
 
-  50%,
-  100% {
-    opacity: 0;
-  }
-}
 
-.hero__status {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
-  margin-top: 26px;
-}
 
-.status-pill {
-  display: inline-flex;
-  align-items: center;
-  gap: 9px;
-  padding: 6px 14px;
-  border-radius: 999px;
-  font-size: 0.85rem;
-  border: 1px solid var(--line);
-  background: rgba(10, 20, 45, 0.55);
-  backdrop-filter: blur(8px);
-  color: var(--muted);
-}
-
-.status-pill strong {
-  color: var(--text);
-  font-weight: 600;
-}
-
-.status-pill--hot {
-  color: var(--orange);
-  border-color: rgba(255, 138, 61, 0.35);
-}
 
 .hero__actions {
   display: flex;
@@ -1315,6 +1329,9 @@ kbd {
 }
 
 .marquee__item {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
   padding: 6px 14px;
   border: 1px solid var(--line);
   border-radius: 999px;
@@ -1323,6 +1340,50 @@ kbd {
   font-size: 0.78rem;
   color: var(--muted);
   white-space: nowrap;
+}
+
+.marquee__dot {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--cyan);
+  opacity: 0.6;
+}
+
+/* Scroll hint at the bottom of the hero */
+.hero__scroll {
+  position: absolute;
+  left: 50%;
+  bottom: 6px;
+  display: grid;
+  place-items: center;
+  width: 32px;
+  height: 32px;
+  color: var(--dim);
+  transform: translateX(-50%);
+  animation: scroll-bob 2.4s ease-in-out infinite;
+  transition: color 0.2s;
+}
+
+.hero__scroll:hover {
+  color: var(--cyan);
+}
+
+@keyframes scroll-bob {
+  0%,
+  100% {
+    transform: translate(-50%, 0);
+  }
+
+  50% {
+    transform: translate(-50%, 5px);
+  }
+}
+
+@media (max-width: 980px), (max-height: 820px) {
+  .hero__scroll {
+    display: none;
+  }
 }
 
 @keyframes marquee {
@@ -2921,7 +2982,7 @@ kbd {
   display: grid;
   grid-template-columns: minmax(0, 6fr) minmax(0, 6fr);
   gap: clamp(20px, 3vw, 40px);
-  align-items: start;
+  align-items: stretch;
 }
 
 .degree {
@@ -3007,9 +3068,11 @@ kbd {
   gap: 6px;
 }
 
+/* Achievements: 2×2, rows stretch to the degree card's height */
 .creds {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-auto-rows: 1fr;
   gap: 12px;
 }
 
@@ -3064,6 +3127,173 @@ kbd {
   color: var(--muted);
 }
 
+/* Linked credentials: the whole card opens the verification page */
+.cred--link {
+  position: relative;
+}
+
+.cred__link::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+}
+
+.cred--link:hover {
+  border-color: rgba(62, 231, 255, 0.45);
+}
+
+.cred--link:hover .cred__title {
+  color: var(--cyan);
+}
+
+.cred__verify {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  margin-top: 8px;
+  font-size: 0.62rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--dim);
+  transition: color 0.2s;
+}
+
+.cred--link:hover .cred__verify {
+  color: var(--cyan);
+}
+
+/* Certifications slider: full-width row under the degree and achievements */
+.certs {
+  margin-top: clamp(32px, 4vw, 48px);
+}
+
+.certs__head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 14px;
+}
+
+.certs__title {
+  font-size: 0.74rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--cyan);
+}
+
+.certs__nav {
+  display: flex;
+  gap: 8px;
+}
+
+.certs__btn {
+  display: grid;
+  place-items: center;
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  border: 1px solid var(--line-strong);
+  background: rgba(3, 8, 20, 0.85);
+  color: var(--text);
+  transition: border-color 0.2s, color 0.2s, opacity 0.2s;
+}
+
+.certs__btn:hover:not(:disabled) {
+  border-color: var(--cyan);
+  color: var(--cyan);
+}
+
+.certs__btn:disabled {
+  opacity: 0.35;
+  cursor: default;
+}
+
+.certs__track {
+  display: flex;
+  gap: 14px;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scroll-behavior: smooth;
+  overscroll-behavior-x: contain;
+  padding: 4px 2px 6px;
+  scrollbar-width: none;
+}
+
+.certs__track::-webkit-scrollbar {
+  display: none;
+}
+
+/* Fade the right edge while more cards are off-screen */
+.certs__track.has-more {
+  -webkit-mask-image: linear-gradient(90deg, #000 88%, transparent);
+  mask-image: linear-gradient(90deg, #000 88%, transparent);
+}
+
+.certs__card {
+  flex: 0 0 calc((100% - 3 * 14px) / 4);
+  scroll-snap-align: start;
+}
+
+@media (max-width: 980px) {
+  .certs__card {
+    flex-basis: calc((100% - 14px) / 2.2);
+  }
+}
+
+@media (max-width: 560px) {
+  .certs__card {
+    flex-basis: 82%;
+  }
+}
+
+/* ==========================================================================
+   Quote bands between sections
+   ========================================================================== */
+.quote {
+  width: min(var(--maxw), calc(100% - 2 * var(--gutter)));
+  margin-inline: auto;
+  /* Neighbouring sections already pad generously; pull the quote in a little. */
+  margin-block: calc(-1 * clamp(32px, 5vw, 72px));
+}
+
+/* Left accent bar + italic serif, like a pull quote */
+/* Aligned to the content column's left edge, like the section headings */
+.quote figure {
+  max-width: 860px;
+  padding: 4px 0 4px clamp(18px, 2.5vw, 28px);
+  border-left: 3px solid rgba(62, 231, 255, 0.55);
+  text-align: left;
+}
+
+.quote__text p {
+  font-family: var(--font-quote);
+  font-style: italic;
+  font-weight: 500;
+  font-size: clamp(1.2rem, 2vw, 1.55rem);
+  line-height: 1.45;
+  color: #dfe7fb;
+  text-wrap: balance;
+}
+
+.quote__mark {
+  margin-right: 0.12em;
+  font-size: 1.35em;
+  line-height: 0;
+  vertical-align: -0.12em;
+  color: var(--cyan);
+}
+
+/* Highlighted words: keep the italic serif, just tint them */
+.quote__text em {
+  font-style: italic;
+  background: none;
+  -webkit-background-clip: initial;
+  background-clip: initial;
+  color: var(--cyan);
+}
+
 /* ==========================================================================
    Contact & footer
    ========================================================================== */
@@ -3071,66 +3301,212 @@ kbd {
   display: grid;
   grid-template-columns: minmax(0, 5fr) minmax(0, 6fr);
   gap: clamp(28px, 4vw, 60px);
-  align-items: start;
+  align-items: stretch;
 }
 
-.channels {
-  margin-top: 28px;
-  border-top: 1px solid var(--line);
+/* The form card fills the column height; the message box takes the extra space. */
+.contact__right {
+  display: flex;
 }
 
-.channels a {
+.contact__right .compose-card {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.contact__right .compose {
+  flex: 1;
+  grid-template-rows: auto 1fr auto;
+}
+
+.contact__right .compose label:has(textarea) {
+  grid-template-rows: auto 1fr;
+}
+
+.contact__right .compose textarea {
+  height: 100%;
+  min-height: 120px;
+}
+
+.contact__status {
+  display: inline-flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px 8px;
+  padding: 6px 14px;
+  border: 1px solid rgba(74, 222, 128, 0.3);
+  border-radius: 999px;
+  background: rgba(74, 222, 128, 0.06);
+  font-size: 0.84rem;
+  color: var(--text);
+}
+
+.contact__status .live-dot {
+  width: 7px;
+  height: 7px;
+  margin-right: 2px;
+  background: #4ade80;
+  animation-name: live-green;
+}
+
+.contact__intro {
+  margin-top: 18px;
+  font-size: 1.02rem;
+  line-height: 1.65;
+  color: #b8c4e2;
+}
+
+/* Email + phone: two matching tiles, same surface as the site's other cards */
+.reach {
   display: grid;
-  grid-template-columns: 36px 84px minmax(0, 1fr) auto;
+  grid-template-columns: minmax(0, 1.35fr) minmax(0, 1fr);
+  gap: 10px;
+  margin-top: 24px;
+}
+
+.reach__tile {
+  position: relative;
+  display: grid;
+  grid-template-columns: 38px minmax(0, 1fr);
   align-items: center;
   gap: 12px;
-  padding: 14px 4px;
-  border-bottom: 1px solid var(--line);
-  transition: background 0.3s, padding 0.4s var(--ease);
+  padding: 14px;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: rgba(3, 8, 20, 0.85);
+  transition: border-color 0.25s, background 0.25s;
 }
 
-.channels a:hover {
-  background: linear-gradient(90deg, var(--cyan-soft), transparent);
-  padding-left: 12px;
+.reach__tile:hover {
+  border-color: rgba(62, 231, 255, 0.45);
+  background: rgba(8, 18, 40, 0.9);
 }
 
-.channels__icon {
+.reach__icon {
   display: grid;
   place-items: center;
-  width: 36px;
-  height: 36px;
+  width: 38px;
+  height: 38px;
   border-radius: 10px;
-  color: var(--cyan);
   border: 1px solid var(--line);
+  background: var(--cyan-soft);
+  color: var(--cyan);
 }
 
-.channels__label {
+/* The link's ::after covers the tile, so the whole tile is clickable. */
+.reach__link {
+  display: grid;
+  gap: 2px;
+  min-width: 0;
+}
+
+.reach__link::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+}
+
+.reach__label {
+  font-size: 0.6rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
   color: var(--dim);
-  font-size: 0.62rem;
 }
 
-.channels__value {
-  font-weight: 600;
+.reach__value {
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+  font-size: 0.92rem;
+  font-weight: 600;
+  color: var(--text);
+  transition: color 0.2s;
 }
 
-.channels__go {
-  color: var(--dim);
-  transition: transform 0.3s var(--ease), color 0.3s;
-}
-
-.channels a:hover .channels__go {
+.reach__tile:hover .reach__value {
   color: var(--cyan);
-  transform: translateX(3px);
 }
 
-.contact__actions {
+.reach__copy {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  z-index: 1;
+  display: grid;
+  place-items: center;
+  width: 26px;
+  height: 26px;
+  border-radius: 7px;
+  color: var(--dim);
+  transition: color 0.2s, background 0.2s;
+}
+
+.reach__copy:hover {
+  color: var(--cyan);
+  background: var(--cyan-soft);
+}
+
+.reach__tile:has(.reach__copy) {
+  padding-right: 36px;
+}
+
+/* Profiles and résumé: one row of small pills each */
+.links {
   display: flex;
   flex-wrap: wrap;
-  gap: 12px;
-  margin-top: 28px;
+  gap: 8px;
+  margin-top: 14px;
+}
+
+.links__pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 7px 14px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: rgba(3, 8, 20, 0.85);
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: var(--text);
+  transition: border-color 0.2s, color 0.2s;
+}
+
+.links__pill svg {
+  color: var(--cyan);
+}
+
+.links__pill:hover {
+  border-color: rgba(62, 231, 255, 0.5);
+  color: var(--cyan);
+}
+
+/* Same look as the hero's outlined resume button, a size smaller */
+.contact__resume {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 20px;
+  padding: 9px 16px;
+  border: 1px solid rgba(62, 231, 255, 0.45);
+  border-radius: 10px;
+  background: rgba(62, 231, 255, 0.04);
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--cyan);
+  transition: border-color 0.25s, background 0.25s, transform 0.25s var(--ease);
+}
+
+.contact__resume:hover {
+  border-color: var(--cyan);
+  background: rgba(62, 231, 255, 0.1);
+  transform: translateY(-1px);
+}
+
+.contact__resume:active {
+  transform: scale(0.97);
 }
 
 .compose-card {
@@ -3627,9 +4003,6 @@ kbd {
     width: 100%;
   }
 
-  .hero__intro .eyebrow {
-    justify-content: center;
-  }
 
 
   .hero__details {
@@ -3667,18 +4040,12 @@ kbd {
 
   .hero__lede {
     max-width: 44ch;
-    min-height: 4.4em;
     margin-inline: auto;
     font-size: clamp(1.02rem, 3.2vw, 1.2rem);
     line-height: 1.5;
     text-align: center;
   }
 
-  .hero__status {
-    justify-content: center;
-    margin-top: 16px;
-    gap: 8px;
-  }
 
   .hero__actions {
     margin-top: 24px;
@@ -3744,19 +4111,15 @@ kbd {
   .hero__lede {
     font-size: 0.98rem;
     line-height: 1.48;
-    min-height: 4.4em;
     padding-inline: 6px;
   }
 
-  .hero__status {
-    margin-top: 14px;
-    gap: 6px;
+  /* Phones: two headline stats keep the buttons near the top of the screen. */
+  .hero__metrics .metric:nth-child(n + 3) {
+    display: none;
   }
 
-  .status-pill {
-    font-size: 0.78rem;
-    padding: 5px 11px;
-  }
+
 
   .hero__cta {
     flex-direction: column;
@@ -3900,12 +4263,13 @@ kbd {
     grid-template-columns: minmax(0, 1fr);
   }
 
-  .channels a {
-    grid-template-columns: 36px minmax(0, 1fr) auto;
+  /* Phones: stack the two tiles */
+  .reach {
+    grid-template-columns: minmax(0, 1fr);
   }
 
-  .channels__label {
-    display: none;
+  .quote__text p {
+    font-size: 1.08rem;
   }
 
   .tl {

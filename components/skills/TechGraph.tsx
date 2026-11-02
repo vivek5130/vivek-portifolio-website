@@ -2,7 +2,7 @@
 
 import { motion, useInView, useMotionValue, useReducedMotion, useSpring, useTransform } from "framer-motion";
 import { useMemo, useRef, useState } from "react";
-import { brandIcons, type BrandIcon } from "@/lib/techIcons";
+import { brandColor, brandIcons, type BrandIcon } from "@/lib/techIcons";
 import { Icon } from "../ui/Icon";
 import { ease } from "../ui/motion";
 
@@ -65,12 +65,6 @@ function curve(a: TechNode, b: TechNode, i: number) {
   };
 }
 
-/** White-out near-black brand colours so they read on the dark background. */
-function brandColor(hex: string) {
-  const n = parseInt(hex.slice(1), 16);
-  const lum = 0.2126 * ((n >> 16) & 255) + 0.7152 * ((n >> 8) & 255) + 0.0722 * (n & 255);
-  return lum < 60 ? "#e7eeff" : hex;
-}
 
 export function TechGraph({ activeGroup }: { activeGroup: Group | null }) {
   const ref = useRef<HTMLDivElement>(null);

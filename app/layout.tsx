@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import { Sora, Inter, JetBrains_Mono, Syne, Mona_Sans, Bricolage_Grotesque, Monoton, Black_Ops_One, Cinzel } from "next/font/google";
+import { Sora, Inter, JetBrains_Mono, Syne, Mona_Sans, Bricolage_Grotesque, Monoton, Black_Ops_One, Cinzel, Playfair_Display } from "next/font/google";
 import { profile } from "@/lib/data";
 import { ChatWidget } from "@/components/chat/ChatWidget";
 import "./globals.css";
@@ -10,6 +10,8 @@ const mono = JetBrains_Mono({ subsets: ["latin"], variable: "--font-mono-loaded"
 // Hero font loader (Controls the font loaded for "GANATHE VIVEK"):
 const hero = Syne({ subsets: ["latin"], weight: ["600", "700", "800"], variable: "--font-hero-loaded", display: "swap" });
 const heroSecondary = Cinzel({ subsets: ["latin"], weight: ["400","700","800", "900"], variable: "--font-hero-secondary-loaded", display: "swap" });
+// Italic serif for the quote bands between sections.
+const quote = Playfair_Display({ subsets: ["latin"], weight: ["500"], style: ["italic"], variable: "--font-quote-loaded", display: "swap" });
 const title = `${profile.firstName} ${profile.lastName} — ${profile.role}`;
 const description =
   "Full Stack AI Engineer building production GenAI: NL2SQL reporting, RAG-powered conversational agents and full-stack products with React, Next.js, Node.js, LangChain and vector search.";
@@ -45,7 +47,7 @@ const personJsonLd = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" className={`${display.variable} ${body.variable} ${mono.variable} ${hero.variable} ${heroSecondary.variable}`}>
+    <html lang="en" className={`${display.variable} ${body.variable} ${mono.variable} ${hero.variable} ${heroSecondary.variable} ${quote.variable}`}>
       <body>
         <a href="#main" className="skip-link">
           Skip to content

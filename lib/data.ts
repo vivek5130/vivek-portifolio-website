@@ -37,14 +37,14 @@ export const sections: NavItem[] = [
   { id: "contact", label: "Contact", index: "06" },
 ];
 
-export type Metric = { value: number; suffix: string; label: string; source: string };
+export type Metric = { value: string; label: string; source: string };
 
-/** Recruiter-facing highlights shown in the hero. */
+/** Recruiter-facing highlights shown in the hero: outcomes first. */
 export const metrics: Metric[] = [
-  { value: 1, suffix: "+", label: "Year experience", source: "SDE @ Zithara.AI" },
-  { value: 8, suffix: "+", label: "Features in production", source: "AI & full stack" },
-  { value: 400, suffix: "+", label: "DSA problems solved", source: "LeetCode · top 10%" },
-  { value: 1, suffix: "", label: "Research paper", source: "Published · NLP" },
+  { value: "4+", label: "AI systems shipped", source: "AI agents · NL2SQL · Excel insights" },
+  { value: "−70%", label: "less manual reporting", source: "NL2SQL reporting engine" },
+  { value: "−50%", label: "lower handling time", source: "Conversational AI agents" },
+  { value: "400+", label: "DSA problems solved", source: "LeetCode · top 10%" },
 ];
 
 export type Highlight = { title: string; text: string; impact?: string; stack: string[] };
@@ -271,14 +271,61 @@ export const education = {
   coursework: ["Artificial Intelligence", "Machine Learning", "Data Structures & Algorithms", "Database Management", "Cloud Computing", "Java (OOP)"],
 };
 
-export type Credential = { title: string; issuer: string; kind: "cert" | "award" | "paper" | "rank"; icon: IconName };
+export type Credential = {
+  title: string;
+  issuer: string;
+  kind: "cert" | "award" | "paper" | "rank";
+  icon: IconName;
+  /** Public verification link, opened in a new tab. */
+  href?: string;
+};
 
 export const credentials: Credential[] = [
-  { title: "AWS Cloud Practitioner Essentials", issuer: "Amazon Web Services", kind: "cert", icon: "cloud" },
-  { title: "Google Data Analytics Certificate", issuer: "Google · Coursera", kind: "cert", icon: "chart" },
+  {
+    title: "Generative AI Fundamentals",
+    issuer: "Databricks Academy · Accreditation",
+    kind: "cert",
+    icon: "spark",
+    href: "https://credentials.databricks.com/8d061a35-dbb6-4a61-8f6b-fd768520bcfa",
+  },
+  {
+    title: "Prompt Design in Vertex AI",
+    issuer: "Google Cloud · Skill badge",
+    kind: "cert",
+    icon: "brain",
+    href: "https://www.credly.com/badges/169da488-0a91-418d-9e06-4467042dbdd7",
+  },
+  {
+    title: "AWS Cloud Practitioner Essentials",
+    issuer: "Amazon Web Services · Coursera",
+    kind: "cert",
+    icon: "cloud",
+    href: "https://www.coursera.org/account/accomplishments/verify/FFKH27X18LFN",
+  },
+  {
+    title: "Google Data Analytics Certificate",
+    issuer: "Google · Coursera",
+    kind: "cert",
+    icon: "chart",
+    href: "https://www.coursera.org/account/accomplishments/specialization/certificate/3VHAL5UFQP67",
+  },
+  {
+    title: "Foundations of Cybersecurity",
+    issuer: "Google · Coursera",
+    kind: "cert",
+    icon: "shield",
+    href: "https://www.coursera.org/account/accomplishments/verify/KFCDCP4NJAPZ",
+  },
+  {
+    title: "Web Development Fundamentals",
+    issuer: "IBM SkillsBuild",
+    kind: "cert",
+    icon: "code",
+    href: "https://www.credly.com/badges/872bb6ce-5657-4690-8623-0dfc2d8aa908",
+  },
   { title: "Research paper — automated exam evaluation", issuer: "Published · NLP", kind: "paper", icon: "paper" },
   { title: "Special Mention, regional hackathon", issuer: "AI for agriculture", kind: "award", icon: "trophy" },
-  { title: "LeetCode top 10% · 400+ problems", issuer: "Data structures & algorithms", kind: "rank", icon: "target" },
+  { title: "LeetCode top 10% · 400+ problems", issuer: "Data structures & algorithms", kind: "rank", icon: "target", href: profile.links.leetcode },
   { title: "Exceptional Oration Award", issuer: "Green Corps", kind: "award", icon: "mic" },
 ];
 
@@ -306,4 +353,4 @@ export type IconName =
   | "brain" | "code" | "layers" | "database" | "workflow" | "cloud" | "chart" | "paper"
   | "trophy" | "target" | "mic" | "mail" | "phone" | "pin" | "github" | "linkedin"
   | "leetcode" | "download" | "arrow" | "external" | "spark" | "command" | "copy" | "check"
-  | "cap" | "bolt" | "chat" | "search" | "close" | "menu";
+  | "cap" | "bolt" | "chat" | "search" | "close" | "menu" | "shield";
