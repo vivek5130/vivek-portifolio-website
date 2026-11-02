@@ -52,17 +52,26 @@ function ComposeForm() {
   );
 }
 
-export function Contact() {
+/** Copies `text`; shows a tick for a moment. If the clipboard is unavailable, opens `fallbackHref` instead. */
+function CopyButton({ text, label, fallbackHref }: { text: string; label: string; fallbackHref: string }) {
   const [copied, setCopied] = useState(false);
   const copy = async () => {
     try {
-      await navigator.clipboard.writeText(profile.email);
+      await navigator.clipboard.writeText(text);
       setCopied(true);
       setTimeout(() => setCopied(false), 1800);
     } catch {
-      window.location.href = `mailto:${profile.email}`;
+      window.location.href = fallbackHref;
     }
   };
+  return (
+    <button type="button" className="reach__copy" onClick={copy} aria-label={copied ? `${label} copied` : `Copy ${label.toLowerCase()}`} title={copied ? "Copied" : "Copy"}>
+      <Icon name={copied ? "check" : "copy"} size={14} />
+    </button>
+  );
+}
+
+export function Contact() {
 
   return (
     <section id="contact" className="section contact" aria-labelledby="contact-title">
@@ -89,9 +98,7 @@ export function Contact() {
                 <span className="reach__label mono">Email</span>
                 <span className="reach__value">{profile.email}</span>
               </a>
-              <button type="button" className="reach__copy" onClick={copy} aria-label={copied ? "Email copied" : "Copy email address"} title={copied ? "Copied" : "Copy"}>
-                <Icon name={copied ? "check" : "copy"} size={14} />
-              </button>
+              <CopyButton text={profile.email} label="Email address" fallbackHref={`mailto:${profile.email}`} />
             </div>
             <div className="reach__tile">
               <span className="reach__icon">
@@ -101,6 +108,7 @@ export function Contact() {
                 <span className="reach__label mono">Phone</span>
                 <span className="reach__value">{profile.phone}</span>
               </a>
+              <CopyButton text={profile.phone} label="Phone number" fallbackHref={profile.phoneHref} />
             </div>
           </div>
 

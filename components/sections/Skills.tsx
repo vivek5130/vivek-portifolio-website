@@ -1,14 +1,89 @@
 "use client";
 
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import { skillGroups } from "@/lib/data";
-import { TechGraph, type TechGroup } from "../skills/TechGraph";
+import { SkillCard, techById, techNodes, TechGraph, TechMark, type TechNode } from "../skills/TechGraph";
 import { Icon } from "../ui/Icon";
 import { Reveal } from "../ui/motion";
 import { Brackets, SectionHeader } from "../ui/primitives";
 
+const LAYERS = ["Interface", "Services", "Intelligence", "Data"] as const;
+
+/** The graph node a résumé skill name refers to, if it has one. */
+const nodeByName = new Map<string, TechNode>(techNodes.flatMap((n) => [n.label, ...n.aliases].map((s) => [s.toLowerCase(), n] as const)));
+
+/** Every skill group, always visible. Skills that are graph nodes open their card; the active one is lit. */
+function SkillGroups({
+  active,
+  activeGroup,
+  onPick,
+  onGroup,
+}: {
+  active: string | null;
+  activeGroup: string | null;
+  onPick: (id: string) => void;
+  onGroup: (id: string | null) => void;
+}) {
+  return (
+    <div className="skill-groups" onPointerLeave={() => onGroup(null)}>
+      {skillGroups.map((g) => (
+        <div
+          className={`skill-groups__group${g.id === activeGroup ? " is-active" : ""}`}
+          key={g.id}
+          onPointerEnter={() => onGroup(g.id)}
+          onFocus={() => onGroup(g.id)}
+          onBlur={() => onGroup(null)}
+        >
+          <p className="skill-groups__label">
+            <Icon name={g.icon} size={16} />
+            {g.label}
+            <span className="mono">{String(g.items.length).padStart(2, "0")}</span>
+          </p>
+          <ul className="skill-groups__items" aria-label={`${g.label} skills`}>
+            {g.items.map((s) => {
+              const node = nodeByName.get(s.toLowerCase());
+              return (
+                <li key={s}>
+                  {node ? (
+                    <button
+                      type="button"
+                      className={`chip chip--link${node.id === active ? " is-on" : ""}`}
+                      onClick={() => onPick(node.id)}
+                      title={`See where I've used ${s}`}
+                    >
+                      <TechMark node={node} size={12} />
+                      {s}
+                    </button>
+                  ) : (
+                    <span className="chip">{s}</span>
+                  )}
+                </li>
+              );
+            })}
+          </ul>
+        </div>
+      ))}
+    </div>
+  );
+}
+
 export function Skills() {
-  const [active, setActive] = useState<number | null>(null);
+  // Clicking pins a technology's card; hovering previews one. The list on the right never changes.
+  const [pinned, setPinned] = useState<string | null>(null);
+  const [preview, setPreview] = useState<string | null>(null);
+  // Hovering a group in the list lights up its technologies in the graph (and hides any open card meanwhile).
+  const [group, setGroup] = useState<string | null>(null);
+  const active = group ? null : (preview ?? pinned);
+  const isPinned = pinned !== null && (preview === null || preview === pinned);
+
+  const pick = useCallback((id: string) => {
+    setPreview(null);
+    setPinned((p) => (p === id ? null : id));
+  }, []);
+  const close = useCallback(() => {
+    setPreview(null);
+    setPinned(null);
+  }, []);
 
   return (
     <section id="skills" className="section skills" aria-labelledby="skills-title">
@@ -18,45 +93,33 @@ export function Skills() {
         <Reveal className="skills__viz">
           <Brackets />
           <div className="skills__legend mono" aria-hidden="true">
-            <span>Interface</span>
-            <span>Services</span>
-            <span>Intelligence</span>
-            <span>Data</span>
+            {LAYERS.map((l) => (
+              <span key={l} className={active && techById[active].layer === l ? "is-on" : undefined}>
+                {l}
+              </span>
+            ))}
           </div>
-          <TechGraph activeGroup={active === null ? null : (skillGroups[active].id as TechGroup)} />
+          <TechGraph selected={active} pinned={isPinned} onPreview={setPreview} onPick={pick} onClose={close} group={group} />
+
+          {/* Phones: the graph is too dense, so every technology is a tappable chip, with its card below. */}
+          <div className="skills__chips" role="group" aria-label="Technologies">
+            {techNodes.map((n) => (
+              <button key={n.id} type="button" className={`chip${n.id === pinned ? " is-on" : ""}`} aria-pressed={n.id === pinned} onClick={() => pick(n.id)}>
+                <TechMark node={n} size={13} />
+                {n.label}
+              </button>
+            ))}
+          </div>
+          {pinned && <SkillCard id={pinned} pinned onPick={pick} onClose={close} className="skill-card--inline" />}
+
           <p className="figure__caption">
-            <span className="mono">fig. 04</span> How the stack connects in my work — hover a technology to trace its links.
+            <span className="mono">fig. 04</span> How the stack connects in my work — hover a technology to preview it, click to pin its card.
           </p>
         </Reveal>
 
-        <ul className="skills__list" onPointerLeave={() => setActive(null)}>
-          {skillGroups.map((g, i) => (
-            <Reveal as="li" key={g.id} delay={i * 0.06} className={`skill-group${i === active ? " is-active" : ""}`}>
-              <div onPointerEnter={() => setActive(i)}>
-                <button
-                  type="button"
-                  className="skill-group__head"
-                  aria-pressed={i === active}
-                  onClick={() => setActive(i === active ? null : i)}
-                  onFocus={() => setActive(i)}
-                >
-                  <span className="skill-group__icon">
-                    <Icon name={g.icon} size={20} />
-                  </span>
-                  <span className="skill-group__label">{g.label}</span>
-                  <span className="skill-group__count mono">{String(g.items.length).padStart(2, "0")}</span>
-                </button>
-                <ul className="skill-group__items" aria-label={`${g.label} skills`}>
-                  {g.items.map((s) => (
-                    <li key={s} className="chip">
-                      {s}
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            </Reveal>
-          ))}
-        </ul>
+        <Reveal delay={0.1} className="skills__side">
+          <SkillGroups active={active} activeGroup={group} onPick={pick} onGroup={setGroup} />
+        </Reveal>
       </div>
     </section>
   );
