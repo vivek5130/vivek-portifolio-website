@@ -20,3 +20,16 @@ export const brandIcons = {
 } as const;
 
 export type BrandIcon = keyof typeof brandIcons;
+
+/** White-out near-black brand colours so they read on the dark background. */
+export function brandColor(hex: string) {
+  const n = parseInt(hex.slice(1), 16);
+  const lum = 0.2126 * ((n >> 16) & 255) + 0.7152 * ((n >> 8) & 255) + 0.0722 * (n & 255);
+  return lum < 60 ? "#e7eeff" : hex;
+}
+
+/** Brand icon for a skill name as written in the portfolio data, if one exists. */
+export function brandForSkill(name: string): BrandIcon | undefined {
+  const key = name.toLowerCase().replace(/[^a-z0-9]/g, "");
+  return (Object.keys(brandIcons) as BrandIcon[]).find((k) => k === key || brandIcons[k].title.toLowerCase().replace(/[^a-z0-9]/g, "") === key);
+}

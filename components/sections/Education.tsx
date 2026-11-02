@@ -1,13 +1,99 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { credentials, education } from "@/lib/data";
+import { useCallback, useEffect, useRef, useState } from "react";
+import { credentials, education, type Credential } from "@/lib/data";
 import { Icon } from "../ui/Icon";
 import { ease, Reveal, RevealGroup, RevealItem } from "../ui/motion";
 import { Brackets, Chip, SectionHeader, SpotlightCard } from "../ui/primitives";
 
 const kindLabel = { cert: "Certificate", award: "Award", paper: "Publication", rank: "Ranking" } as const;
 const years = ["2021", "2022", "2023", "2024", "2025"];
+
+const certificates = credentials.filter((c) => c.kind === "cert");
+const achievements = credentials.filter((c) => c.kind !== "cert");
+
+/** Icon, label, title, issuer and (when linked) a verify hint; the title link covers the whole card. */
+function CredBody({ c }: { c: Credential }) {
+  return (
+    <>
+      <span className="cred__icon">
+        <Icon name={c.icon} size={20} />
+      </span>
+      <div>
+        <span className="cred__kind mono">{kindLabel[c.kind]}</span>
+        <h3 className="cred__title">
+          {c.href ? (
+            <a href={c.href} target="_blank" rel="noopener noreferrer" className="cred__link">
+              {c.title}
+              <span className="sr-only"> ({c.kind === "rank" ? "view profile" : "verify credential"}, opens in new tab)</span>
+            </a>
+          ) : (
+            c.title
+          )}
+        </h3>
+        <p className="cred__issuer">{c.issuer}</p>
+        {c.href && (
+          <span className="cred__verify mono" aria-hidden="true">
+            {c.kind === "rank" ? "View profile" : "Verify"}
+            <Icon name="external" size={11} />
+          </span>
+        )}
+      </div>
+    </>
+  );
+}
+
+/** Horizontal, snap-scrolling row of certificates with previous / next buttons. */
+function CertSlider() {
+  const trackRef = useRef<HTMLUListElement>(null);
+  const [edges, setEdges] = useState({ start: true, end: false });
+
+  const update = useCallback(() => {
+    const el = trackRef.current;
+    if (!el) return;
+    setEdges({ start: el.scrollLeft <= 4, end: el.scrollLeft + el.clientWidth >= el.scrollWidth - 4 });
+  }, []);
+
+  useEffect(() => {
+    update();
+    window.addEventListener("resize", update);
+    return () => window.removeEventListener("resize", update);
+  }, [update]);
+
+  // Move by one card (plus the gap) per click.
+  const step = (dir: 1 | -1) => {
+    const el = trackRef.current;
+    const card = el?.querySelector("li");
+    if (!el || !card) return;
+    el.scrollBy({ left: dir * (card.getBoundingClientRect().width + 14), behavior: "smooth" });
+  };
+
+  return (
+    <Reveal className="certs">
+      <div className="certs__head">
+        <h3 className="certs__title mono">
+          Certifications <span className="dim">· {certificates.length}</span>
+        </h3>
+        <div className="certs__nav">
+          <button type="button" className="certs__btn" onClick={() => step(-1)} disabled={edges.start} aria-label="Previous certificates">
+            <Icon name="arrow" size={16} className="rot-180" />
+          </button>
+          <button type="button" className="certs__btn" onClick={() => step(1)} disabled={edges.end} aria-label="Next certificates">
+            <Icon name="arrow" size={16} />
+          </button>
+        </div>
+      </div>
+      <ul className={`certs__track${edges.end ? "" : " has-more"}`} ref={trackRef} onScroll={update} tabIndex={0} aria-label="Certifications, scroll horizontally">
+        {certificates.map((c) => (
+          <li key={c.title} className={`cred cred--cert certs__card${c.href ? " cred--link" : ""}`}>
+            <CredBody c={c} />
+          </li>
+        ))}
+      </ul>
+    </Reveal>
+  );
+}
 
 export function Education() {
   return (
@@ -53,20 +139,15 @@ export function Education() {
         </Reveal>
 
         <RevealGroup as="ul" className="creds" stagger={0.07}>
-          {credentials.map((c) => (
-            <RevealItem as="li" key={c.title} className={`cred cred--${c.kind}`}>
-              <span className="cred__icon">
-                <Icon name={c.icon} size={20} />
-              </span>
-              <div>
-                <span className="cred__kind mono">{kindLabel[c.kind]}</span>
-                <h3 className="cred__title">{c.title}</h3>
-                <p className="cred__issuer">{c.issuer}</p>
-              </div>
+          {achievements.map((c) => (
+            <RevealItem as="li" key={c.title} className={`cred cred--${c.kind}${c.href ? " cred--link" : ""}`}>
+              <CredBody c={c} />
             </RevealItem>
           ))}
         </RevealGroup>
       </div>
+
+      <CertSlider />
     </section>
   );
 }

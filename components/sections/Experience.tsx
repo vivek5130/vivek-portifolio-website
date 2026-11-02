@@ -1,35 +1,85 @@
 "use client";
 
-import { AnimatePresence, LayoutGroup, motion } from "framer-motion";
-import { useMemo, useState } from "react";
-import { experience, trackMeta, type Track } from "@/lib/data";
-import { SystemsMap } from "../ui/diagrams";
+import Image from "next/image";
+import { Fragment } from "react";
+import { experience, type Role } from "@/lib/data";
 import { Icon } from "../ui/Icon";
-import { ease, Reveal } from "../ui/motion";
-import { Brackets, Chip, SectionHeader, SpotlightCard } from "../ui/primitives";
+import { Reveal } from "../ui/motion";
+import { Brackets, SectionHeader, SpotlightCard } from "../ui/primitives";
 
-type Filter = Track | "all";
-
-function tenure(startIso: string) {
+/** "1 yr 6 mos"-style length between two dates; `end` defaults to today. */
+function duration(startIso: string, endIso?: string) {
   const start = new Date(startIso);
-  const now = new Date();
-  const months = (now.getFullYear() - start.getFullYear()) * 12 + now.getMonth() - start.getMonth() + 1;
+  const end = endIso ? new Date(endIso) : new Date();
+  const months = Math.max(1, (end.getFullYear() - start.getFullYear()) * 12 + end.getMonth() - start.getMonth() + (endIso ? 0 : 1));
   const y = Math.floor(months / 12);
   const m = months % 12;
-  return [y ? `${y} yr` : "", m ? `${m} mo` : ""].filter(Boolean).join(" ");
+  return [y ? `${y} yr` : "", m ? `${m} mo${m > 1 ? "s" : ""}` : ""].filter(Boolean).join(" ");
+}
+
+/** Headline numbers for the side card: "−50% handling time" → value "−50%", what "handling time". */
+const results = experience.roles.flatMap((r) =>
+  r.highlights
+    .filter((h) => h.impact)
+    .map((h) => {
+      const [value, ...what] = h.impact!.split(" ");
+      return { value, what: what.join(" "), source: h.title };
+    }),
+);
+const [current, ...earlier] = experience.roles;
+
+function RoleCard({ role, isCurrent }: { role: Role; isCurrent: boolean }) {
+  return (
+    <li className="tl__item">
+      <span className={`tl__dot${isCurrent ? " is-current" : ""}`} aria-hidden="true" />
+      <Reveal>
+        <article className="tl__card">
+          <header className="tl__head">
+            <div>
+              <h3 className="tl__title">{role.title}</h3>
+              <span className={`tl__badge${isCurrent ? " is-current" : ""}`}>{role.type}</span>
+            </div>
+            <p className="tl__period mono">
+              {role.period}
+              <span className="dim" suppressHydrationWarning>
+                {duration(role.start, role.end)}
+              </span>
+            </p>
+          </header>
+
+          <p className="tl__focus">
+            <span className="mono">focus</span>
+            {role.focus}
+          </p>
+
+          <ul className="tl__list">
+            {role.highlights.map((h) => (
+              <li className="tl__point" key={h.title}>
+                <p>
+                  <strong>{h.title}</strong> — {h.text}
+                </p>
+                <div className="tl__foot">
+                  {h.impact && (
+                    <span className="impact">
+                      <Icon name="bolt" size={12} />
+                      {h.impact}
+                    </span>
+                  )}
+                  <span className="tl__stack mono">{h.stack.join(" · ")}</span>
+                </div>
+              </li>
+            ))}
+          </ul>
+        </article>
+      </Reveal>
+    </li>
+  );
 }
 
 export function Experience() {
-  const [filter, setFilter] = useState<Filter>("all");
-  const items = useMemo(
-    () => experience.achievements.map((a, i) => ({ ...a, n: i + 1 })).filter((a) => filter === "all" || a.track === filter),
-    [filter],
-  );
-  const filters: Filter[] = ["all", "genai", "growth", "platform"];
-
   return (
     <section id="experience" className="section experience" aria-labelledby="experience-title">
-      <SectionHeader id="experience-title" index="02" label="Experience" title="Shipping GenAI to production at Zithara.AI." emphasis={[1]} note="field notes" />
+      <SectionHeader id="experience-title" index="02" label="Experience" title="From intern to engineer, shipping AI to production." emphasis={[5]} note="timeline" />
 
       <div className="exp__grid">
         <aside className="exp__aside">
@@ -37,93 +87,64 @@ export function Experience() {
             <SpotlightCard className="company">
               <Brackets />
               <div className="company__top">
-                <span className="company__logo" aria-hidden="true">
-                  Z
+                <span className="company__logo">
+                  <Image src="/zithara_logo.png" alt={`${experience.company} logo`} width={4500} height={4500} sizes="56px" />
                 </span>
                 <div>
-                  <h3 className="company__role">{experience.role}</h3>
-                  <p className="company__name">
-                    {experience.company} <span className="dim">· {experience.location}</span>
-                  </p>
+                  <h3 className="company__role">{experience.company}</h3>
+                  <p className="company__name">{experience.location}</p>
                 </div>
               </div>
               <p className="company__context">{experience.context}</p>
               <dl className="company__meta">
                 <div>
-                  <dt className="mono dim">period</dt>
-                  <dd>{experience.period}</dd>
+                  <dt className="mono dim">since</dt>
+                  <dd>May 2025</dd>
                 </div>
                 <div>
                   <dt className="mono dim">tenure</dt>
                   <dd suppressHydrationWarning>
-                    <span className="live-dot" aria-hidden="true" /> {tenure(experience.start)}
+                    <span className="live-dot" aria-hidden="true" /> {duration(experience.start)}
                   </dd>
                 </div>
                 <div>
-                  <dt className="mono dim">shipped</dt>
-                  <dd>{experience.achievements.length} systems</dd>
+                  <dt className="mono dim">path</dt>
+                  <dd>Intern → SDE</dd>
                 </div>
               </dl>
             </SpotlightCard>
           </Reveal>
 
           <Reveal delay={0.1}>
-            <div className="filters" role="group" aria-label="Filter achievements by track">
-              {filters.map((f) => (
-                <button key={f} type="button" aria-pressed={filter === f} className={filter === f ? "is-active" : undefined} onClick={() => setFilter(f)}>
-                  {filter === f && <motion.span layoutId="filter-pill" className="filters__pill" transition={{ duration: 0.4, ease }} />}
-                  <span className="filters__label">{f === "all" ? "All work" : trackMeta[f].label}</span>
-                </button>
-              ))}
+            <div className="results">
+              <p className="results__label mono">Key results</p>
+              <ul>
+                {results.map((r) => (
+                  <li key={r.source}>
+                    <span className="results__value">{r.value}</span>
+                    <span className="results__what">
+                      {r.what}
+                      <span className="dim">{r.source}</span>
+                    </span>
+                  </li>
+                ))}
+              </ul>
             </div>
-          </Reveal>
-
-          <Reveal delay={0.15} className="figure">
-            <SystemsMap active={filter} />
-            <p className="figure__caption">
-              <span className="mono">fig. 03</span> Systems map — {filter === "all" ? "three lanes of production work" : trackMeta[filter].blurb.toLowerCase()}.
-            </p>
           </Reveal>
         </aside>
 
-        <LayoutGroup>
-          <motion.ol className="achievements" layout>
-            <AnimatePresence mode="popLayout" initial={false}>
-              {items.map((a) => (
-                <motion.li
-                  key={a.title}
-                  layout
-                  initial={{ opacity: 0, y: 24 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true, margin: "0px 0px -8% 0px" }}
-                  exit={{ opacity: 0, scale: 0.97, transition: { duration: 0.2 } }}
-                  transition={{ duration: 0.6, ease }}
-                  className="achievement"
-                >
-                  <span className="achievement__n mono">{String(a.n).padStart(2, "0")}</span>
-                  <div className="achievement__body">
-                    <div className="achievement__head">
-                      <h3>{a.title}</h3>
-                      {a.impact && (
-                        <span className="impact">
-                          <Icon name="bolt" size={13} />
-                          {a.impact}
-                        </span>
-                      )}
-                    </div>
-                    <p>{a.detail}</p>
-                    <div className="achievement__tags">
-                      <Chip tone="cyan">{trackMeta[a.track].label}</Chip>
-                      {a.stack.map((s) => (
-                        <Chip key={s}>{s}</Chip>
-                      ))}
-                    </div>
-                  </div>
-                </motion.li>
-              ))}
-            </AnimatePresence>
-          </motion.ol>
-        </LayoutGroup>
+        <ol className="tl">
+          <RoleCard role={current} isCurrent />
+          {earlier.map((role) => (
+            <Fragment key={role.title}>
+              <li className="tl__milestone" aria-label={`Converted to full-time, ${current.period.split(" — ")[0]}`}>
+                <span className="tl__milestone-mark" aria-hidden="true" />
+                <span className="mono">Converted to full-time · {current.period.split(" — ")[0]}</span>
+              </li>
+              <RoleCard role={role} isCurrent={false} />
+            </Fragment>
+          ))}
+        </ol>
       </div>
     </section>
   );

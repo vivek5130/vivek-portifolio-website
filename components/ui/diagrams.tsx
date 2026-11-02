@@ -1,71 +1,7 @@
 "use client";
 
-import type { ProjectKind, Track } from "@/lib/data";
+import type { ProjectKind } from "@/lib/data";
 import { useReducedMotion } from "@/lib/hooks";
-
-/* ------------------------------------------------------------------ */
-/* Systems map: the three lanes of work at Zithara.AI                  */
-/* ------------------------------------------------------------------ */
-
-const lanes: { track: Track; label: string; nodes: string[] }[] = [
-  { track: "genai", label: "GenAI & RAG", nodes: ["NL question", "Qdrant retrieve", "LangChain LLM", "SQL · reply · chart"] },
-  { track: "growth", label: "Meta & Growth", nodes: ["IG / WA event", "Meta Graph API", "AI bot flow", "Engagement +60%"] },
-  { track: "platform", label: "Platform", nodes: ["Tenant data", "Bulk import", "GrapeJS builder", "AWS SES send"] },
-];
-
-const NX = [14, 146, 278, 410];
-const NW = 112;
-const NH = 38;
-const LY = [52, 146, 240];
-
-export function SystemsMap({ active }: { active: Track | "all" }) {
-  const reduced = useReducedMotion();
-  return (
-    <svg className="sysmap" viewBox="0 0 536 290" role="img" aria-labelledby="sysmap-title">
-      <title id="sysmap-title">Systems map of work at Zithara.AI: GenAI and RAG, Meta and growth automation, and platform infrastructure lanes.</title>
-      <defs>
-        <pattern id="grid" width="14" height="14" patternUnits="userSpaceOnUse">
-          <path d="M14 0H0V14" fill="none" className="sysmap__grid" />
-        </pattern>
-        <marker id="arrow" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="6" markerHeight="6" orient="auto">
-          <path d="M0 0L8 4L0 8z" className="sysmap__arrow" />
-        </marker>
-      </defs>
-      <rect width="536" height="290" fill="url(#grid)" opacity="0.5" />
-
-      {/* Cross-lane links: the LLM powers bot flows; imports feed retrieval. */}
-      <path d={`M${NX[2] + NW / 2} ${LY[0] + NH / 2} V${LY[1] - NH / 2}`} className={`sysmap__link${active === "all" || active !== "platform" ? " is-on" : ""}`} />
-      <path d={`M${NX[1] + NW / 2} ${LY[2] - NH / 2} C ${NX[1] + 40} ${LY[1] + 20}, ${NX[1] + 30} ${LY[0] + 40}, ${NX[1] + NW / 2 - 10} ${LY[0] + NH / 2}`} className={`sysmap__link sysmap__link--soft${active === "all" || active === "platform" ? " is-on" : ""}`} />
-
-      {lanes.map((lane, li) => {
-        const on = active === "all" || active === lane.track;
-        const y = LY[li];
-        const flowPath = `M${NX[0] + NW} ${y} H${NX[3]}`;
-        return (
-          <g key={lane.track} className={`sysmap__lane${on ? " is-on" : ""}`}>
-            <text x={NX[0]} y={y - NH / 2 - 9} className="sysmap__lane-label">
-              {String(li + 1).padStart(2, "0")} · {lane.label}
-            </text>
-            <path d={flowPath} className="sysmap__flow" markerEnd="url(#arrow)" />
-            {lane.nodes.map((n, ni) => (
-              <g key={n} transform={`translate(${NX[ni]} ${y - NH / 2})`}>
-                <rect width={NW} height={NH} rx="6" className={`sysmap__node${ni === 2 ? " sysmap__node--core" : ""}`} />
-                <text x={NW / 2} y={NH / 2 + 4} textAnchor="middle" className="sysmap__text">
-                  {n}
-                </text>
-              </g>
-            ))}
-            {on && !reduced && (
-              <circle r="3.2" className={li === 1 ? "sysmap__packet sysmap__packet--hot" : "sysmap__packet"}>
-                <animateMotion dur={`${2.6 + li * 0.5}s`} repeatCount="indefinite" path={flowPath} />
-              </circle>
-            )}
-          </g>
-        );
-      })}
-    </svg>
-  );
-}
 
 /* ------------------------------------------------------------------ */
 /* Per-project schematic illustrations                                  */
@@ -121,20 +57,33 @@ const schematics: Record<ProjectKind, React.ReactNode> = {
       <circle cx="120" cy="60" r="32" className="schem__orbit" />
     </>
   ),
-  insights: (
+  metaads: (
     <>
-      <g transform="translate(10 26)">
-        {[0, 1, 2, 3, 4].map((r) => [0, 1, 2].map((c) => <rect key={`${r}${c}`} x={c * 20} y={r * 13} width="18" height="11" className="schem__cell" />))}
+      {/* Ad creative */}
+      <g transform="translate(8 30)">
+        <rect width="48" height="58" rx="5" className="schem__shape" />
+        <rect x="6" y="6" width="36" height="22" rx="2" className="schem__cell" />
+        <path d="M6 36 H42 M6 42 H30" className="schem__axis" />
+        <rect x="6" y="48" width="20" height="5" rx="2.5" className="schem__shape schem__shape--core" />
       </g>
-      <path d="M74 58 H100" className="schem__wire" />
-      <text x="120" y="63" textAnchor="middle" className="schem__label schem__label--hot">{"{ code }"}</text>
-      <path d="M142 58 H160" className="schem__wire" />
-      <path d="M166 92 L184 70 L200 78 L216 46 L232 54" className="schem__line" />
-      {[[166, 92], [184, 70], [200, 78], [216, 46], [232, 54]].map(([x, y]) => (
-        <circle key={x} cx={x} cy={y} r="2.6" className="schem__dot" />
-      ))}
-      <path d="M162 98 H238" className="schem__axis" />
-      <Packet path="M74 58 H100 M142 58 H166" dur={2.2} />
+      <text x="32" y="104" textAnchor="middle" className="schem__label">ad</text>
+      <path d="M56 59 H92" className="schem__wire" />
+      {/* Meta Ads API */}
+      <g transform="translate(92 38)">
+        <rect width="62" height="42" rx="5" className="schem__shape schem__shape--core" />
+        <text x="31" y="18" textAnchor="middle" className="schem__label">Meta</text>
+        <text x="31" y="31" textAnchor="middle" className="schem__label">Ads API</text>
+      </g>
+      {/* CRM, with audiences going out and offline conversions coming back */}
+      <circle cx="214" cy="59" r="20" className="schem__shape" />
+      <text x="214" y="63" textAnchor="middle" className="schem__label">CRM</text>
+      <path d="M194 50 H154" className="schem__wire" />
+      <text x="174" y="42" textAnchor="middle" className="schem__label">audiences</text>
+      <path d="M154 68 H194" className="schem__wire" />
+      <text x="174" y="84" textAnchor="middle" className="schem__label schem__label--hot">CAPI</text>
+      <Packet path="M56 59 H92" dur={1.8} />
+      <Packet path="M194 50 H154" dur={2.2} />
+      <Packet path="M194 68 H154" dur={2.6} hot />
     </>
   ),
   shopping: (

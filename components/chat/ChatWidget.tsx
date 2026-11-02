@@ -12,7 +12,7 @@ type Msg = { role: "user" | "assistant"; content: string; source?: "quick" | "ai
 const FALLBACK_SIGNAL = "\u0000FALLBACK";
 const GREETING: Msg = {
   role: "assistant",
-  content: "Hi! I'm Vivek's AI assistant, grounded in his résumé. Pick a quick question or ask me anything about his experience, projects or skills.",
+  content: "Hi! I'm Vivek's AI assistant, grounded in his resume. Pick a quick question or ask me anything about his experience, projects or skills.",
   source: "quick",
 };
 

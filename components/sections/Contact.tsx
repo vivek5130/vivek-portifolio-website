@@ -6,15 +6,13 @@ import { useClock } from "@/lib/hooks";
 import { Monogram } from "../chrome/Hud";
 import { Icon } from "../ui/Icon";
 import { Reveal } from "../ui/motion";
-import { Brackets, ButtonLink, SectionHeader, SpotlightCard } from "../ui/primitives";
+import { Brackets, SectionHeader, SpotlightCard } from "../ui/primitives";
 import { scrollToId } from "@/lib/runtime";
 
-const channels: { icon: IconName; label: string; value: string; href: string; external?: boolean }[] = [
-  { icon: "mail", label: "Email", value: profile.email, href: `mailto:${profile.email}` },
-  { icon: "phone", label: "Phone", value: profile.phone, href: profile.phoneHref },
-  { icon: "linkedin", label: "LinkedIn", value: "linkedin.com/in/vivekganathe", href: profile.links.linkedin, external: true },
-  { icon: "github", label: "GitHub", value: "github.com/vivek5130", href: profile.links.github, external: true },
-  { icon: "leetcode", label: "LeetCode", value: "leetcode.com/vivek5130", href: profile.links.leetcode, external: true },
+const profiles: { icon: IconName; label: string; href: string }[] = [
+  { icon: "linkedin", label: "LinkedIn", href: profile.links.linkedin },
+  { icon: "github", label: "GitHub", href: profile.links.github },
+  { icon: "leetcode", label: "LeetCode", href: profile.links.leetcode },
 ];
 
 function ComposeForm() {
@@ -54,17 +52,26 @@ function ComposeForm() {
   );
 }
 
-export function Contact() {
+/** Copies `text`; shows a tick for a moment. If the clipboard is unavailable, opens `fallbackHref` instead. */
+function CopyButton({ text, label, fallbackHref }: { text: string; label: string; fallbackHref: string }) {
   const [copied, setCopied] = useState(false);
   const copy = async () => {
     try {
-      await navigator.clipboard.writeText(profile.email);
+      await navigator.clipboard.writeText(text);
       setCopied(true);
       setTimeout(() => setCopied(false), 1800);
     } catch {
-      window.location.href = `mailto:${profile.email}`;
+      window.location.href = fallbackHref;
     }
   };
+  return (
+    <button type="button" className="reach__copy" onClick={copy} aria-label={copied ? `${label} copied` : `Copy ${label.toLowerCase()}`} title={copied ? "Copied" : "Copy"}>
+      <Icon name={copied ? "check" : "copy"} size={14} />
+    </button>
+  );
+}
+
+export function Contact() {
 
   return (
     <section id="contact" className="section contact" aria-labelledby="contact-title">
@@ -72,31 +79,56 @@ export function Contact() {
 
       <div className="contact__grid">
         <Reveal className="contact__left">
-          <p className="lead">
-            I'm open to full-time opportunities in Full Stack Development and AI Engineering. I enjoy building practical products, intelligent systems, and solutions that solve real-world problems. If you're working on something exciting, I'd love to connect.
+          <p className="contact__status">
+            <span className="live-dot" aria-hidden="true" />
+            Open to full-time roles <span className="dim">·</span> {profile.location} <span className="dim">·</span> Open to relocate
           </p>
-          <ul className="channels">
-            {channels.map((c) => (
-              <li key={c.label}>
-                <a href={c.href} {...(c.external ? { target: "_blank", rel: "noopener noreferrer" } : {})}>
-                  <span className="channels__icon">
-                    <Icon name={c.icon} size={18} />
-                  </span>
-                  <span className="channels__label mono">{c.label}</span>
-                  <span className="channels__value">{c.value}</span>
-                  <Icon name={c.external ? "external" : "arrow"} size={15} className="channels__go" />
-                </a>
-              </li>
-            ))}
-          </ul>
-          <div className="contact__actions">
-            <ButtonLink href={profile.resume} icon="download" download>
-              Download Resume
-            </ButtonLink>
+          <p className="contact__intro">
+            I&apos;m looking for full-time roles in full-stack development and AI engineering. If you&apos;re building something exciting, I&apos;d love to hear about
+            it.
+          </p>
+
+          {/* Direct ways to reach me: two matching tiles, each clickable as a whole */}
+          <div className="reach">
+            <div className="reach__tile">
+              <span className="reach__icon">
+                <Icon name="mail" size={17} />
+              </span>
+              <a href={`mailto:${profile.email}`} className="reach__link">
+                <span className="reach__label mono">Email</span>
+                <span className="reach__value">{profile.email}</span>
+              </a>
+              <CopyButton text={profile.email} label="Email address" fallbackHref={`mailto:${profile.email}`} />
+            </div>
+            <div className="reach__tile">
+              <span className="reach__icon">
+                <Icon name="phone" size={17} />
+              </span>
+              <a href={profile.phoneHref} className="reach__link">
+                <span className="reach__label mono">Phone</span>
+                <span className="reach__value">{profile.phone}</span>
+              </a>
+              <CopyButton text={profile.phone} label="Phone number" fallbackHref={profile.phoneHref} />
+            </div>
           </div>
+
+          <div className="links">
+            {profiles.map((p) => (
+              <a key={p.label} href={p.href} target="_blank" rel="noopener noreferrer" className="links__pill">
+                <Icon name={p.icon} size={15} />
+                {p.label}
+                <span className="sr-only"> (opens in new tab)</span>
+              </a>
+            ))}
+          </div>
+
+          <a href={profile.resume} download className="contact__resume">
+            <Icon name="download" size={16} strokeWidth={2} />
+            Download resume
+          </a>
         </Reveal>
 
-        <Reveal delay={0.12}>
+        <Reveal delay={0.12} className="contact__right">
           <SpotlightCard className="compose-card">
             <Brackets />
             <p className="mono compose-card__title">
