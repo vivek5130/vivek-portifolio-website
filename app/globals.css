@@ -3573,9 +3573,17 @@ kbd {
 /* Email + phone: two matching tiles, same surface as the site's other cards */
 .reach {
   display: grid;
-  grid-template-columns: minmax(0, 1.35fr) minmax(0, 1fr);
+  /* Widths sized so the full email and phone number both fit beside their copy buttons */
+  grid-template-columns: minmax(0, 1.22fr) minmax(0, 1fr);
   gap: 10px;
   margin-top: 24px;
+}
+
+/* Smaller laptops: the column is too narrow for both values side by side, so stack the tiles */
+@media (max-width: 1360px) {
+  .reach {
+    grid-template-columns: minmax(0, 1fr);
+  }
 }
 
 .reach__tile {
