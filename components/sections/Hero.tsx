@@ -15,36 +15,28 @@ const LEDE_LINES = [
   { focus: "GenAI", rest: " end to end — from LangChain agents to the product UI around them." },
 ] as const;
 
-/** Simple fade-up for each name line — no flash, blur, or letter gimmicks. */
+/** Simple fade-up for each name line — always animates for dramatic effect. */
 function RevealName({ text, delay = 0, className }: { text: string; delay?: number; className?: string }) {
-  const reduced = useReducedMotion();
-
   return (
     <motion.span
       className={className}
       aria-hidden="true"
-      initial={reduced ? false : { opacity: 0, y: 16 }}
+      initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
-      transition={{ delay, duration: 0.65, ease }}
+      transition={{ delay, duration: 0.75, ease }}
     >
       {text}
     </motion.span>
   );
 }
 
-/** Cycles AI / full-stack / GenAI lines with a typewriter. */
+/** Cycles AI / full-stack / GenAI lines with a typewriter. Always animates. */
 function TypewriterLede() {
-  const reduced = useReducedMotion();
   const [index, setIndex] = useState(0);
   const [text, setText] = useState("");
   const [phase, setPhase] = useState<"typing" | "pause" | "deleting">("typing");
 
   useEffect(() => {
-    if (reduced) {
-      const line = LEDE_LINES[0];
-      setText(`${line.focus}${line.rest}`);
-      return;
-    }
 
     const line = LEDE_LINES[index];
     const full = `${line.focus}${line.rest}`;
@@ -73,7 +65,7 @@ function TypewriterLede() {
     }
     const t = window.setTimeout(() => setText(text.slice(0, -1)), 16);
     return () => window.clearTimeout(t);
-  }, [text, phase, index, reduced]);
+  }, [text, phase, index]);
 
   const focus = LEDE_LINES[index].focus;
   const focusLen = Math.min(text.length, focus.length);
@@ -88,7 +80,7 @@ function TypewriterLede() {
       <span aria-hidden="true">
         I build {typedFocus ? <em>{typedFocus}</em> : null}
         {typedRest}
-        {!reduced && <span className="hero__caret" />}
+        <span className="hero__caret" />
       </span>
     </p>
   );

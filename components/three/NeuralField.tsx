@@ -4,7 +4,6 @@ import { Canvas, useFrame, useThree } from "@react-three/fiber";
 import { useEffect, useMemo, useRef } from "react";
 import * as THREE from "three";
 import { ensurePointerTracking, pointer, scroll } from "@/lib/runtime";
-import { useReducedMotion } from "@/lib/hooks";
 import { createGlowPointsMaterial, mulberry32, palette } from "./materials";
 
 const BOX = { x: 22, y: 14, z: 9, zMin: -6 };
@@ -278,7 +277,9 @@ function Scene({ count, animate }: { count: number; animate: boolean }) {
 
 /** Fixed, full-viewport neural volume behind all content. Purely decorative. */
 export default function NeuralField() {
-  const reduced = useReducedMotion();
+  // Always animate — reduced motion only affects framer-motion transitions in content,
+  // the WebGL background is a decorative layer, not accessibility-critical motion.
+  const reduced = false;
   const count = typeof window !== "undefined" && window.innerWidth < 720 ? 36 : 75;
 
   useEffect(() => {

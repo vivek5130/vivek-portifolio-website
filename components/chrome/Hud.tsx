@@ -75,15 +75,12 @@ export function Hud({ onOpenPalette }: { onOpenPalette: () => void }) {
         </nav>
 
         <div className="hud__actions">
-          <span className="hud__clock mono" aria-label={`Local time in Hyderabad ${time}`}>
-            <span className="live-dot" aria-hidden="true" /> HYD {time}
-          </span>
           <button type="button" className="hud__cmd" onClick={onOpenPalette} aria-label="Open command palette">
             <Icon name="command" size={14} />
             <span className="mono">K</span>
           </button>
           <a href={`mailto:${profile.email}`} className="btn btn--primary btn--sm hud__hire">
-            <span className="btn__label">Hire me</span>
+            <span className="btn__label">Let's Connect</span>
           </a>
           <button
             type="button"
