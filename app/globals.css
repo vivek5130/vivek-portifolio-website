@@ -3396,21 +3396,34 @@ kbd {
   color: var(--cyan);
 }
 
-.certs__nav {
-  display: flex;
-  gap: 8px;
+/* Track with arrows over its left and right edges */
+.certs__viewport {
+  position: relative;
 }
 
 .certs__btn {
+  position: absolute;
+  top: 50%;
+  z-index: 2;
   display: grid;
   place-items: center;
-  width: 38px;
-  height: 38px;
+  width: 40px;
+  height: 40px;
   border-radius: 50%;
   border: 1px solid var(--line-strong);
-  background: rgba(3, 8, 20, 0.85);
+  background: rgba(10, 21, 50, 0.95);
+  box-shadow: 0 8px 20px -8px rgba(0, 0, 0, 0.8);
   color: var(--text);
-  transition: border-color 0.2s, color 0.2s, opacity 0.2s;
+  transform: translateY(-50%);
+  transition: border-color 0.2s, color 0.2s, opacity 0.25s, visibility 0.25s;
+}
+
+.certs__btn--prev {
+  left: -20px;
+}
+
+.certs__btn--next {
+  right: -20px;
 }
 
 .certs__btn:hover:not(:disabled) {
@@ -3418,9 +3431,13 @@ kbd {
   color: var(--cyan);
 }
 
+/* Nothing further in that direction: keep the arrow, greyed out */
 .certs__btn:disabled {
-  opacity: 0.35;
+  border-color: var(--line);
+  color: var(--dim);
+  opacity: 0.45;
   cursor: default;
+  box-shadow: none;
 }
 
 .certs__track {
@@ -3438,10 +3455,20 @@ kbd {
   display: none;
 }
 
-/* Fade the right edge while more cards are off-screen */
-.certs__track.has-more {
+/* Fade whichever edges have more cards beyond them */
+.certs__track.has-next {
   -webkit-mask-image: linear-gradient(90deg, #000 88%, transparent);
   mask-image: linear-gradient(90deg, #000 88%, transparent);
+}
+
+.certs__track.has-prev {
+  -webkit-mask-image: linear-gradient(90deg, transparent, #000 12%);
+  mask-image: linear-gradient(90deg, transparent, #000 12%);
+}
+
+.certs__track.has-prev.has-next {
+  -webkit-mask-image: linear-gradient(90deg, transparent, #000 12%, #000 88%, transparent);
+  mask-image: linear-gradient(90deg, transparent, #000 12%, #000 88%, transparent);
 }
 
 .certs__card {
@@ -4475,6 +4502,19 @@ kbd {
 
   .quote__text p {
     font-size: 1.08rem;
+  }
+
+  .certs__btn {
+    width: 34px;
+    height: 34px;
+  }
+
+  .certs__btn--prev {
+    left: 4px;
+  }
+
+  .certs__btn--next {
+    right: 4px;
   }
 
   .tl {
