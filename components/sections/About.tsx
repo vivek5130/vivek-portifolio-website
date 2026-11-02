@@ -88,7 +88,7 @@ function QueryConsole() {
       </div>
       <div className="console__foot mono">
         <span>
-          <span className="live-dot" aria-hidden="true" /> 
+          <span className="live-dot" aria-hidden="true" />
         </span>
         <span className="dim">{done ? "complete" : "streaming…"}</span>
       </div>
@@ -108,7 +108,9 @@ export function About() {
           </Reveal>
           <Reveal delay={0.1}>
             <p className="body-copy">
-              I graduated in Computer Science (AI &amp; ML) in 2025 and went straight into building GenAI products at Zithara.AI — an AI-first CRM for retail brands. I care about systems that are fast, observable and kind to the people using them.
+              {/* I graduated in Computer Science (AI &amp; ML) in 2025 and went straight into building GenAI products at Zithara.AI — an AI-first CRM for retail brands. I care about systems that are fast, observable and kind to the people using them.
+               */}
+              I graduated with a B.Tech in Computer Science (AI &amp; ML) in 2025 and began my professional journey at Zithara.AI, building Full Stack products for retail businesses. My work spans conversational AI, natural-language reporting, messaging and marketing automation, turning complex business needs into practical, reliable solutions.
             </p>
           </Reveal>
           <Reveal delay={0.2}>

@@ -35,7 +35,7 @@ export function CommandPalette({ open, setOpen }: { open: boolean; setOpen: (v: 
       { id: "mail", label: "Write an email", hint: "mailto", icon: "mail", run: () => (window.location.href = `mailto:${profile.email}`) },
       { id: "gh", label: "Open GitHub", hint: "vivek5130", icon: "github", run: () => window.open(profile.links.github, "_blank", "noopener") },
       { id: "li", label: "Open LinkedIn", hint: "vivekganathe", icon: "linkedin", run: () => window.open(profile.links.linkedin, "_blank", "noopener") },
-      { id: "lc", label: "Open LeetCode", hint: "350+ solved", icon: "leetcode", run: () => window.open(profile.links.leetcode, "_blank", "noopener") },
+      { id: "lc", label: "Open LeetCode", hint: "400+ solved", icon: "leetcode", run: () => window.open(profile.links.leetcode, "_blank", "noopener") },
     ];
   }, []);
 

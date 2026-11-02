@@ -38,7 +38,7 @@ export const quickReplies: { q: string; a: string; keywords: string[] }[] = [
   },
   {
     q: "Education & certifications?",
-    a: "B.Tech in Computer Science & Engineering (AI & ML) from St. Mary's Engineering College, Hyderabad (2021–2025). Certified in AWS Cloud Practitioner Essentials and the Google Data Analytics Certificate. LeetCode top 10% with 350+ problems solved.",
+    a: "B.Tech in Computer Science & Engineering (AI & ML) from St. Mary's Engineering College, Hyderabad (2021–2025). Certified in AWS Cloud Practitioner Essentials and the Google Data Analytics Certificate. LeetCode top 10% with 400+ problems solved.",
     keywords: ["education", "degree", "college", "certificate", "certification", "study", "leetcode"],
   },
   {

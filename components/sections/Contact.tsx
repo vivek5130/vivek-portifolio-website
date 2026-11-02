@@ -12,9 +12,9 @@ import { scrollToId } from "@/lib/runtime";
 const channels: { icon: IconName; label: string; value: string; href: string; external?: boolean }[] = [
   { icon: "mail", label: "Email", value: profile.email, href: `mailto:${profile.email}` },
   { icon: "phone", label: "Phone", value: profile.phone, href: profile.phoneHref },
-  { icon: "linkedin", label: "LinkedIn", value: "in/vivekganathe", href: profile.links.linkedin, external: true },
-  { icon: "github", label: "GitHub", value: "vivek5130", href: profile.links.github, external: true },
-  { icon: "leetcode", label: "LeetCode", value: "u/vivek5130", href: profile.links.leetcode, external: true },
+  { icon: "linkedin", label: "LinkedIn", value: "linkedin.com/in/vivekganathe", href: profile.links.linkedin, external: true },
+  { icon: "github", label: "GitHub", value: "github.com/vivek5130", href: profile.links.github, external: true },
+  { icon: "leetcode", label: "LeetCode", value: "leetcode.com/vivek5130", href: profile.links.leetcode, external: true },
 ];
 
 function ComposeForm() {
@@ -73,7 +73,7 @@ export function Contact() {
       <div className="contact__grid">
         <Reveal className="contact__left">
           <p className="lead">
-            I&apos;m looking for full-time roles where AI meets real product work. If your team ships LLM features to real users, I&apos;d love to talk.
+            I'm open to full-time opportunities in Full Stack Development and AI Engineering. I enjoy building practical products, intelligent systems, and solutions that solve real-world problems. If you're working on something exciting, I'd love to connect.
           </p>
           <ul className="channels">
             {channels.map((c) => (
@@ -90,14 +90,6 @@ export function Contact() {
             ))}
           </ul>
           <div className="contact__actions">
-            <button type="button" className="btn btn--ghost" onClick={copy}>
-              <span className="btn__label" aria-live="polite">
-                {copied ? "Copied!" : "Copy email"}
-              </span>
-              <span className="btn__icon">
-                <Icon name={copied ? "check" : "copy"} size={16} />
-              </span>
-            </button>
             <ButtonLink href={profile.resume} icon="download" download>
               Download Resume
             </ButtonLink>

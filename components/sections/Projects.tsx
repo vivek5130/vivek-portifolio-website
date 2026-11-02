@@ -83,13 +83,14 @@ function ProjectCard({ p, index }: { p: Project; index: number }) {
 export function Projects() {
   return (
     <section id="projects" className="section projects" aria-labelledby="projects-title">
-      <SectionHeader id="projects-title" index="03" label="Projects" title="Systems in production, experiments in the lab." emphasis={[2]} note="catalogue" />
+      <SectionHeader id="projects-title" index="03" label="Projects" title="Built for production. Driven by curiosity." emphasis={[2]} note="catalogue" />
+
       <p className="projects__legend mono">
         <span>
-          <i className="legend-dot legend-dot--sys" /> SYS — shipped at Zithara.AI
+          <i className="legend-dot legend-dot--sys" /> SYS — Production Systems | Zithara.AI
         </span>
         <span>
-          <i className="legend-dot" /> LAB — independent &amp; research
+          <i className="legend-dot" /> LAB — Independent Projects &amp; Research
         </span>
       </p>
       <div className="projects__grid">
@@ -98,7 +99,7 @@ export function Projects() {
         ))}
       </div>
       <p className="projects__more">
-        More experiments live on{" "}
+        Explore more on{" "}
         <a href="https://github.com/vivek5130" target="_blank" rel="noopener noreferrer">
           GitHub <Icon name="external" size={14} />
         </a>
