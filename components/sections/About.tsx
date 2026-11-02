@@ -1,7 +1,9 @@
 "use client";
 
 import Image from "next/image";
+import { useRef } from "react";
 import { education, experience, profile, type IconName } from "@/lib/data";
+import { ReadAloud } from "../about/ReadAloud";
 import { Terminal } from "../about/Terminal";
 import { Icon } from "../ui/Icon";
 import { Reveal, RevealGroup, RevealItem } from "../ui/motion";
@@ -14,12 +16,13 @@ const pillars: { icon: IconName; title: string; body: string }[] = [
 ];
 
 export function About() {
+  const copyRef = useRef<HTMLDivElement>(null);
   return (
     <section id="about" className="section about" aria-labelledby="about-title">
       <SectionHeader id="about-title" index="01" label="About" title="Turning language into working software." emphasis={[3]} note="abstract" />
 
       <div className="about__grid">
-        <div className="about__copy">
+        <div className="about__copy" ref={copyRef}>
           <Reveal>
             <div className="about__profile">
               <div className="about__avatar">
@@ -37,6 +40,7 @@ export function About() {
                   Open to full-time roles
                 </p>
               </div>
+              <ReadAloud targetRef={copyRef} />
             </div>
           </Reveal>
           <Reveal delay={0.08}>

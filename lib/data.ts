@@ -367,4 +367,5 @@ export type IconName =
   | "brain" | "code" | "layers" | "database" | "workflow" | "cloud" | "chart" | "paper"
   | "trophy" | "target" | "mic" | "mail" | "phone" | "pin" | "github" | "linkedin"
   | "leetcode" | "download" | "arrow" | "external" | "spark" | "command" | "copy" | "check"
-  | "cap" | "bolt" | "chat" | "search" | "close" | "menu" | "shield";
+  | "cap" | "bolt" | "chat" | "search" | "close" | "menu" | "shield"
+  | "play" | "pause" | "stop" | "music";

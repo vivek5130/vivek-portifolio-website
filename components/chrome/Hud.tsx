@@ -6,6 +6,7 @@ import { profile, sections } from "@/lib/data";
 import { useActiveSection, useClock } from "@/lib/hooks";
 import { scrollToId } from "@/lib/runtime";
 import { Icon } from "../ui/Icon";
+import { AmbientMusic } from "./AmbientMusic";
 import { ease } from "../ui/motion";
 
 const ids = sections.map((s) => s.id);
@@ -75,6 +76,7 @@ export function Hud({ onOpenPalette }: { onOpenPalette: () => void }) {
         </nav>
 
         <div className="hud__actions">
+          <AmbientMusic />
           <button type="button" className="hud__cmd" onClick={onOpenPalette} aria-label="Open command palette">
             <Icon name="command" size={14} />
             <span className="mono">K</span>
