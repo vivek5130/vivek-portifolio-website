@@ -330,6 +330,20 @@ export const credentials: Credential[] = [
 ];
 
 /** Pre-written answers for the "query the model" console in About. */
+/**
+ * Lines shown between sections; two are picked at random on each visit.
+ * Wrap words in *asterisks* to highlight them. Keep each under ~90 characters so it fits in two lines.
+ */
+export const quotes: string[] = [
+  "Innovation starts with *curiosity* and thrives through *persistence*.",
+  "The best AI isn't the one people notice — it's the one that quietly makes their work *easier*.",
+  "Intelligence is not in what we build, but in what it makes *possible*.",
+  "AI should *amplify* human potential, not complicate it.",
+  "Behind every intelligent experience is *thoughtful engineering*.",
+  "I believe the most interesting things happen where *logic* meets *imagination*.",
+  "Think beyond what's possible. *Build beyond what's expected.*",
+];
+
 export const consolePrompts: { q: string; a: string }[] = [
   {
     q: "Why should we hire you?",
@@ -353,4 +367,5 @@ export type IconName =
   | "brain" | "code" | "layers" | "database" | "workflow" | "cloud" | "chart" | "paper"
   | "trophy" | "target" | "mic" | "mail" | "phone" | "pin" | "github" | "linkedin"
   | "leetcode" | "download" | "arrow" | "external" | "spark" | "command" | "copy" | "check"
-  | "cap" | "bolt" | "chat" | "search" | "close" | "menu" | "shield";
+  | "cap" | "bolt" | "chat" | "search" | "close" | "menu" | "shield"
+  | "play" | "pause" | "stop" | "music";

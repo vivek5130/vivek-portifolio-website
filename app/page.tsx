@@ -14,10 +14,10 @@ export default function Home() {
       <main id="main">
         <Hero />
         <About />
-        <QuoteBand text="Innovation starts with *curiosity* and thrives through *persistence*." />
+        <QuoteBand slot={0} />
         <Experience />
         <Projects />
-        <QuoteBand text="The best AI isn't the one people notice — it's the one that quietly makes their work *easier*." />
+        <QuoteBand slot={1} />
         <Skills />
         <Education />
         <Contact />

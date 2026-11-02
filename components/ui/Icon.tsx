@@ -125,6 +125,16 @@ const paths: Record<IconName, React.ReactNode> = {
       <path d="m9 12 2 2 4-4" />
     </>
   ),
+  play: <path d="M7 4.5v15l12-7.5-12-7.5Z" />,
+  pause: <path d="M8 5v14M16 5v14" />,
+  stop: <rect x="6" y="6" width="12" height="12" rx="2" />,
+  music: (
+    <>
+      <path d="M9 18V5.5l11-2V16" />
+      <circle cx="6.5" cy="18" r="2.5" />
+      <circle cx="17.5" cy="16" r="2.5" />
+    </>
+  ),
 };
 
 type Props = { name: IconName; size?: number; className?: string; strokeWidth?: number };

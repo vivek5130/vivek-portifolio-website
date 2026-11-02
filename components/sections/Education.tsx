@@ -75,22 +75,29 @@ function CertSlider() {
         <h3 className="certs__title mono">
           Certifications <span className="dim">· {certificates.length}</span>
         </h3>
-        <div className="certs__nav">
-          <button type="button" className="certs__btn" onClick={() => step(-1)} disabled={edges.start} aria-label="Previous certificates">
-            <Icon name="arrow" size={16} className="rot-180" />
-          </button>
-          <button type="button" className="certs__btn" onClick={() => step(1)} disabled={edges.end} aria-label="Next certificates">
-            <Icon name="arrow" size={16} />
-          </button>
-        </div>
       </div>
-      <ul className={`certs__track${edges.end ? "" : " has-more"}`} ref={trackRef} onScroll={update} tabIndex={0} aria-label="Certifications, scroll horizontally">
-        {certificates.map((c) => (
-          <li key={c.title} className={`cred cred--cert certs__card${c.href ? " cred--link" : ""}`}>
-            <CredBody c={c} />
-          </li>
-        ))}
-      </ul>
+      {/* Arrows sit over the left and right edges of the track; each hides when there's nothing further that way. */}
+      <div className="certs__viewport">
+        <button type="button" className="certs__btn certs__btn--prev" onClick={() => step(-1)} disabled={edges.start} aria-label="Previous certificates">
+          <Icon name="arrow" size={16} className="rot-180" />
+        </button>
+        <ul
+          className={`certs__track${edges.start ? "" : " has-prev"}${edges.end ? "" : " has-next"}`}
+          ref={trackRef}
+          onScroll={update}
+          tabIndex={0}
+          aria-label="Certifications, scroll horizontally"
+        >
+          {certificates.map((c) => (
+            <li key={c.title} className={`cred cred--cert certs__card${c.href ? " cred--link" : ""}`}>
+              <CredBody c={c} />
+            </li>
+          ))}
+        </ul>
+        <button type="button" className="certs__btn certs__btn--next" onClick={() => step(1)} disabled={edges.end} aria-label="Next certificates">
+          <Icon name="arrow" size={16} />
+        </button>
+      </div>
     </Reveal>
   );
 }
