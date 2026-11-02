@@ -99,7 +99,7 @@ export function Contact() {
               </span>
             </button>
             <ButtonLink href={profile.resume} icon="download" download>
-              Download résumé
+              Download Resume
             </ButtonLink>
           </div>
         </Reveal>

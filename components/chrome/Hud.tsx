@@ -124,7 +124,7 @@ export function Hud({ onOpenPalette }: { onOpenPalette: () => void }) {
               </motion.a>
             ))}
             <a href={profile.resume} download className="btn btn--ghost">
-              <span className="btn__label">Download résumé</span>
+              <span className="btn__label">Download Resume</span>
               <span className="btn__icon">
                 <Icon name="download" size={16} />
               </span>

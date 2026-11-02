@@ -67,7 +67,7 @@ export function resumeContext() {
   const lines = [
     `# ${profile.firstName} ${profile.lastName} — ${profile.role}`,
     `Location: ${profile.location}. Email: ${profile.email}. Phone: ${profile.phone}.`,
-    `Links: GitHub ${profile.links.github}, LinkedIn ${profile.links.linkedin}, LeetCode ${profile.links.leetcode}. Résumé PDF on this site: ${profile.resume}.`,
+    `Links: GitHub ${profile.links.github}, LinkedIn ${profile.links.linkedin}, LeetCode ${profile.links.leetcode}. Resume PDF on this site: ${profile.resume}.`,
     `Summary: ${profile.summary}`,
     "",
     `## Experience — ${experience.role}, ${experience.company} (${experience.period}, ${experience.location})`,

@@ -31,7 +31,7 @@ export function CommandPalette({ open, setOpen }: { open: boolean; setOpen: (v: 
           setToast("Email copied");
         },
       },
-      { id: "resume", label: "Download résumé (PDF)", hint: "PDF", icon: "download", run: () => window.open(profile.resume, "_blank") },
+      { id: "resume", label: "Download Resume (PDF)", hint: "PDF", icon: "download", run: () => window.open(profile.resume, "_blank") },
       { id: "mail", label: "Write an email", hint: "mailto", icon: "mail", run: () => (window.location.href = `mailto:${profile.email}`) },
       { id: "gh", label: "Open GitHub", hint: "vivek5130", icon: "github", run: () => window.open(profile.links.github, "_blank", "noopener") },
       { id: "li", label: "Open LinkedIn", hint: "vivekganathe", icon: "linkedin", run: () => window.open(profile.links.linkedin, "_blank", "noopener") },

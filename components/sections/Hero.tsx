@@ -126,16 +126,6 @@ export function Hero() {
             <TypewriterLede />
           </motion.div>
 
-          <motion.div className="hero__status" initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.55, duration: 0.55 }}>
-            <span className="status-pill">
-              <span className="live-dot" aria-hidden="true" />
-              Now: SDE at <strong>Zithara.AI</strong>
-            </span>
-            <span className="status-pill status-pill--hot">
-              <Icon name="bolt" size={14} />
-              Open to full-time roles
-            </span>
-          </motion.div>
 
           <motion.div className="hero__cta" initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.65, duration: 0.55, ease }}>
             <ButtonLink
@@ -148,7 +138,7 @@ export function Hero() {
               Explore the work
             </ButtonLink>
             <ButtonLink href={profile.resume} variant="ghost" icon="download" download>
-              Résumé.pdf
+              Resume.pdf
             </ButtonLink>
           </motion.div>
         </div>
