@@ -217,19 +217,19 @@ img {
 }
 
 .atmosphere__glow--a {
-  width: 70vw;
-  height: 70vw;
-  right: -25vw;
-  top: -25vw;
-  background: radial-gradient(circle, rgba(47, 123, 255, 0.32), rgba(100, 60, 255, 0.14) 50%, transparent 70%);
+  width: 60vw;
+  height: 60vw;
+  right: -20vw;
+  top: -20vw;
+  background: radial-gradient(circle, rgba(47, 123, 255, 0.22), transparent 70%);
 }
 
 .atmosphere__glow--b {
-  width: 50vw;
-  height: 50vw;
-  left: -14vw;
-  bottom: -20vw;
-  background: radial-gradient(circle, rgba(255, 138, 61, 0.15), transparent 70%);
+  width: 40vw;
+  height: 40vw;
+  left: -12vw;
+  bottom: -18vw;
+  background: radial-gradient(circle, rgba(255, 138, 61, 0.08), transparent 70%);
 }
 
 .neural-field {
