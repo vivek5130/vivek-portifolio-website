@@ -2,12 +2,10 @@
 
 import { motion, useReducedMotion, useScroll, useTransform } from "framer-motion";
 import { useEffect, useState, useRef } from "react";
-import { metrics, profile } from "@/lib/data";
+import { metrics, profile, skillGroups } from "@/lib/data";
 import { scrollToId } from "@/lib/runtime";
 import { Icon } from "../ui/Icon";
 import { CountUp, ease } from "../ui/motion";
-import { ButtonLink } from "../ui/primitives";
-import { Portrait } from "../hero/Portrait";
 
 const LEDE_LINES = [
   { focus: "AI-native", rest: " products — RAG pipelines, LLM agents and retrieval that ship." },
@@ -86,11 +84,43 @@ function TypewriterLede() {
   );
 }
 
+const SOCIALS = [
+  { label: "GitHub", href: profile.links.github, icon: "github" },
+  { label: "LinkedIn", href: profile.links.linkedin, icon: "linkedin" },
+  { label: "LeetCode", href: profile.links.leetcode, icon: "leetcode" },
+  { label: `Email ${profile.email}`, href: `mailto:${profile.email}`, icon: "mail" },
+] as const;
+
+const ALL_SKILLS = skillGroups.flatMap((g) => g.items);
+
+/** Infinite horizontal ticker of every skill; the list is doubled so the loop is seamless. */
+function SkillsMarquee() {
+  return (
+    <motion.div className="marquee" initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 1, duration: 0.6, ease }}>
+      <ul className="sr-only">
+        {ALL_SKILLS.map((s) => (
+          <li key={s}>{s}</li>
+        ))}
+      </ul>
+      <div className="marquee__track" aria-hidden="true">
+        {[0, 1].map((copy) => (
+          <ul className="marquee__group" key={copy}>
+            {ALL_SKILLS.map((s) => (
+              <li className="marquee__item" key={s}>
+                {s}
+              </li>
+            ))}
+          </ul>
+        ))}
+      </div>
+    </motion.div>
+  );
+}
+
 export function Hero() {
   const ref = useRef<HTMLElement>(null);
   const { scrollYProgress } = useScroll({ target: ref, offset: ["start start", "end start"] });
   const nameY = useTransform(scrollYProgress, [0, 1], ["0%", "38%"]);
-  const portraitY = useTransform(scrollYProgress, [0, 1], ["0%", "-22%"]);
   const fade = useTransform(scrollYProgress, [0, 0.75], [1, 0]);
 
   return (
@@ -106,10 +136,10 @@ export function Hero() {
 
           <h1 id="hero-title" className="hero__name">
             <span className="sr-only">
-              {profile.firstName} {profile.lastName}, {profile.role}
+              {profile.lastName} {profile.firstName}, {profile.role}
             </span>
-            <RevealName text={profile.firstName} className="hero__name-line hero__name-line--first" delay={0.1} />
-            <RevealName text={profile.lastName} className="hero__name-line hero__name-line--accent" delay={0.22} />
+            <RevealName text={profile.lastName} className="hero__name-line hero__name-line--accent" delay={0.1} />
+            <RevealName text={profile.firstName} className="hero__name-line hero__name-line--first" delay={0.22} />
           </h1>
         </div>
 
@@ -119,25 +149,42 @@ export function Hero() {
           </motion.div>
 
 
-          <motion.div className="hero__cta" initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.65, duration: 0.55, ease }}>
-            <ButtonLink
-              href="#experience"
-              onClick={(e) => {
-                e.preventDefault();
-                scrollToId("experience");
-              }}
-            >
-              Explore the work
-            </ButtonLink>
-            <ButtonLink href={profile.resume} variant="ghost" icon="download" download>
-              Resume.pdf
-            </ButtonLink>
+          <motion.div className="hero__actions" initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.65, duration: 0.55, ease }}>
+            <div className="hero__cta">
+              <a
+                href="#experience"
+                className="hero-btn hero-btn--solid"
+                onClick={(e) => {
+                  e.preventDefault();
+                  scrollToId("experience");
+                }}
+              >
+                Explore my work
+                <Icon name="arrow" size={18} strokeWidth={2} />
+              </a>
+              <a href={profile.resume} className="hero-btn hero-btn--outline" download>
+                <Icon name="download" size={18} strokeWidth={2} />
+                Download resume
+              </a>
+            </div>
+
+            <ul className="hero__socials" aria-label="Find me online">
+              {SOCIALS.map((s) => (
+                <li key={s.label}>
+                  <a
+                    href={s.href}
+                    className="hero-social"
+                    aria-label={s.label}
+                    title={s.label}
+                    {...(s.href.startsWith("http") ? { target: "_blank", rel: "noopener noreferrer" } : {})}
+                  >
+                    <Icon name={s.icon} size={20} />
+                  </a>
+                </li>
+              ))}
+            </ul>
           </motion.div>
         </div>
-      </motion.div>
-
-      <motion.div className="hero__portrait" style={{ y: portraitY }} initial={{ opacity: 0, scale: 0.98 }} animate={{ opacity: 1, scale: 1 }} transition={{ delay: 0.2, duration: 0.8, ease }}>
-        <Portrait />
       </motion.div>
 
       <motion.dl className="hero__metrics" initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.8, duration: 0.6, ease }}>
@@ -154,17 +201,7 @@ export function Hero() {
         ))}
       </motion.dl>
 
-      <a
-        href="#about"
-        className="scroll-cue"
-        onClick={(e) => {
-          e.preventDefault();
-          scrollToId("about");
-        }}
-      >
-        <span className="mono">scroll</span>
-        <span className="scroll-cue__line" aria-hidden="true" />
-      </a>
+      <SkillsMarquee />
     </section>
   );
 }

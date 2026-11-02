@@ -39,12 +39,12 @@ export const sections: NavItem[] = [
 
 export type Metric = { value: number; suffix: string; label: string; source: string };
 
-/** Measured outcomes from shipped work. */
+/** Recruiter-facing highlights shown in the hero. */
 export const metrics: Metric[] = [
-  { value: 70, suffix: "%", label: "less manual reporting", source: "NL2SQL engine" },
-  { value: 60, suffix: "%", label: "lift in engagement", source: "Instagram automation" },
-  { value: 50, suffix: "%", label: "lower handling time", source: "Conversational AI agents" },
-  { value: 400, suffix: "+", label: "DSA problems · top 10%", source: "LeetCode" },
+  { value: 1, suffix: "+", label: "Year experience", source: "SDE @ Zithara.AI" },
+  { value: 8, suffix: "+", label: "Features in production", source: "AI & full stack" },
+  { value: 400, suffix: "+", label: "DSA problems solved", source: "LeetCode · top 10%" },
+  { value: 1, suffix: "", label: "Research paper", source: "Published · NLP" },
 ];
 
 export type Track = "genai" | "growth" | "platform";

@@ -268,7 +268,7 @@ function Scene({ count, animate }: { count: number; animate: boolean }) {
   }, -1); // run before the scene objects read it
   return (
     <>
-      <fog attach="fog" args={["#040915", 8, 24]} />
+      <fog attach="fog" args={["#02050d", 8, 24]} />
       <Crystals animate={animate} smooth={smooth} />
       <Network count={count} animate={animate} smooth={smooth} />
     </>

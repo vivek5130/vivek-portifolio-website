@@ -2,8 +2,8 @@
    Design tokens
    ========================================================================== */
 :root {
-  --bg: #040915;
-  --bg-2: #071230;
+  --bg: #02050d;
+  --bg-2: #040a1d;
   --panel: rgba(9, 19, 44, 0.62);
   --panel-solid: #0a1532;
   --line: rgba(120, 170, 255, 0.14);
@@ -221,7 +221,7 @@ img {
   height: 60vw;
   right: -20vw;
   top: -20vw;
-  background: radial-gradient(circle, rgba(47, 123, 255, 0.22), transparent 70%);
+  background: radial-gradient(circle, rgba(47, 123, 255, 0.12), transparent 70%);
 }
 
 .atmosphere__glow--b {
@@ -963,10 +963,11 @@ kbd {
 .hero {
   position: relative;
   min-height: 100svh;
-  display: grid;
-  grid-template-columns: repeat(12, minmax(0, 1fr));
-  grid-template-rows: 1fr auto;
-  column-gap: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
   padding-top: clamp(110px, 14vh, 150px);
   padding-bottom: 40px;
 }
@@ -980,8 +981,8 @@ kbd {
     linear-gradient(to right, rgba(62, 231, 255, 0.07) 1px, transparent 1px),
     linear-gradient(to bottom, rgba(62, 231, 255, 0.07) 1px, transparent 1px);
   background-size: 72px 72px;
-  -webkit-mask-image: radial-gradient(ellipse 80% 70% at 38% 38%, #000 20%, transparent 75%);
-  mask-image: radial-gradient(ellipse 80% 70% at 38% 38%, #000 20%, transparent 75%);
+  -webkit-mask-image: radial-gradient(ellipse 70% 60% at 50% 42%, #000 10%, transparent 70%);
+  mask-image: radial-gradient(ellipse 70% 60% at 50% 42%, #000 20%, transparent 75%);
   animation: grid-drift 12s ease-in-out infinite alternate;
 }
 
@@ -996,12 +997,12 @@ kbd {
 }
 
 .hero__copy {
-  grid-column: 1 / 8;
-  grid-row: 1;
-  align-self: center;
   position: relative;
   z-index: 2;
-  padding-left: clamp(24px, 4vw, 56px);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
 }
 
 .hero__intro,
@@ -1014,48 +1015,29 @@ kbd {
    DESKTOP: "GANATHE VIVEK" NAME TYPOGRAPHY & SIZING
    ========================================================================== */
 .hero__name {
-  margin: 20px 0 24px;
-  font-family: var(--font-hero-secondary);
-  /* <-- FONT FAMILY for both words (Syne) */
-  line-height: 0.91;
-  text-transform: uppercase;
-  font-kerning: normal;
+  margin: 22px 0 22px;
+  font-family: var(--font-display);
+  font-size: clamp(3rem, 7vw, 6.2rem);
+  font-weight: 700;
+  line-height: 1.05;
+  letter-spacing: -0.035em;
 }
 
 .hero__name-line {
-  display: block;
+  display: inline-block;
   white-space: nowrap;
 }
 
-/* --- [1] GANATHE (First Name) - DESKTOP SIZE & WIDENESS --- */
 .hero__name-line--first {
-  font-size: clamp(3.4rem, 5vw, 4.4rem);
-  /* <-- CHANGE GANATHE DESKTOP SIZE HERE */
-  font-weight: 700;
-  /* <-- GANATHE WEIGHT: 600, 700, 800 */
-  letter-spacing: 0.12em;
-  /* <-- GANATHE WIDENESS (LETTER SPACING) */
-  color: #e8f0ff;
-  margin-bottom: 0.08em;
+  color: #eef3ff;
 }
 
-/* --- [2] VIVEK (Last Name) - DESKTOP SIZE & WIDENESS --- */
+.hero__name-line+.hero__name-line {
+  margin-left: 0.24em;
+}
+
 .hero__name-line--accent {
-  font-size: clamp(3.8rem, 6.8vw, 8rem);
-  /* <-- CHANGE VIVEK DESKTOP SIZE HERE */
-  font-weight: 800;
-  /* <-- VIVEK WEIGHT: 700, 800 */
-  letter-spacing: 0.8rem;
-  /* <-- VIVEK WIDENESS (LETTER SPACING) */
-  line-height: 1.1;
-  background: linear-gradient(135deg, #ffffff 0%, #7eedff 30%, var(--cyan) 55%, #2f7bff 85%, #a78bfa 100%);
-  background-size: 200% 200%;
-  -webkit-background-clip: text;
-  font-family: var(--font-hero-secondary);
-  background-clip: text;
-  color: transparent;
-  /* no filter - keeps gradient text pixel-crisp */
-  animation: name-shimmer 6s ease infinite;
+  color: var(--cyan);
 }
 
 @keyframes name-shimmer {
@@ -1071,7 +1053,8 @@ kbd {
 }
 
 .hero__lede {
-  max-width: 38ch;
+  max-width: 46ch;
+  margin-inline: auto;
   min-height: 4.5em;
   font-size: clamp(1.15rem, 1.7vw, 1.45rem);
   line-height: 1.6;
@@ -1141,43 +1124,117 @@ kbd {
   border-color: rgba(255, 138, 61, 0.35);
 }
 
+.hero__actions {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 22px;
+  margin-top: 32px;
+}
+
 .hero__cta {
   display: flex;
   flex-wrap: wrap;
-  gap: 12px;
-  margin-top: 30px;
+  justify-content: center;
+  gap: 14px;
 }
 
-.hero__portrait {
-  grid-column: 8 / 13;
-  grid-row: 1;
-  align-self: center;
-  justify-self: center;
-  position: relative;
-  z-index: 1;
-  width: min(100%, 460px);
-  margin-top: 90px;
+.hero-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  min-height: 52px;
+  padding: 0 26px;
+  border-radius: 12px;
+  font-weight: 600;
+  font-size: 0.98rem;
+  letter-spacing: 0.01em;
+  white-space: nowrap;
+  transition: transform 0.25s var(--ease), background 0.25s, border-color 0.25s, box-shadow 0.25s, color 0.25s;
+}
+
+.hero-btn svg {
+  transition: transform 0.25s var(--ease);
+}
+
+.hero-btn:active {
+  transform: scale(0.97);
+}
+
+.hero-btn--solid {
+  background: var(--cyan);
+  color: #02121a;
+  box-shadow: 0 8px 28px -12px rgba(62, 231, 255, 0.7);
+}
+
+.hero-btn--solid:hover {
+  background: #7ff0ff;
+  transform: translateY(-2px);
+  box-shadow: 0 12px 32px -10px rgba(62, 231, 255, 0.8);
+}
+
+.hero-btn--solid:hover svg {
+  transform: translateX(4px);
+}
+
+.hero-btn--outline {
+  border: 1px solid rgba(62, 231, 255, 0.45);
+  background: rgba(62, 231, 255, 0.04);
+  color: var(--cyan);
+}
+
+.hero-btn--outline:hover {
+  border-color: var(--cyan);
+  background: rgba(62, 231, 255, 0.1);
+  transform: translateY(-2px);
+}
+
+.hero-btn--outline:hover svg {
+  transform: translateY(2px);
+}
+
+.hero__socials {
+  display: flex;
+  gap: 12px;
+}
+
+.hero-social {
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  border: 1px solid var(--line);
+  background: rgba(10, 20, 45, 0.5);
+  color: var(--muted);
+  transition: transform 0.25s var(--ease), color 0.25s, border-color 0.25s, background 0.25s;
+}
+
+.hero-social:hover {
+  color: var(--cyan);
+  border-color: rgba(62, 231, 255, 0.5);
+  background: rgba(62, 231, 255, 0.08);
+  transform: translateY(-3px);
 }
 
 .hero__metrics {
-  grid-column: 1 / 10;
-  grid-row: 2;
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
-  margin-top: 40px;
+  width: min(100%, 940px);
+  margin-top: clamp(48px, 8vh, 80px);
+  padding-top: 28px;
   border-top: 1px solid var(--line);
   position: relative;
   z-index: 2;
-  padding-left: clamp(24px, 4vw, 56px);
 }
 
 .metric {
-  padding: 18px 18px 0 0;
+  padding: 0 12px;
 }
 
-.metric+.metric {
-  padding-left: 18px;
-  border-left: 1px solid var(--line);
+.metric dd {
+  align-items: center;
 }
 
 .metric dt {
@@ -1187,6 +1244,7 @@ kbd {
 .metric dd {
   display: flex;
   flex-direction: column;
+  gap: 2px;
 }
 
 .metric__value {
@@ -1202,8 +1260,62 @@ kbd {
 }
 
 .metric__label {
-  font-size: 0.85rem;
+  font-size: 0.8rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
   color: var(--muted);
+}
+
+/* Skills ticker under the hero metrics */
+.marquee {
+  position: relative;
+  z-index: 2;
+  width: min(100%, 1040px);
+  margin-top: clamp(36px, 6vh, 56px);
+  overflow: hidden;
+  -webkit-mask-image: linear-gradient(90deg, transparent, #000 12%, #000 88%, transparent);
+  mask-image: linear-gradient(90deg, transparent, #000 12%, #000 88%, transparent);
+}
+
+.marquee__track {
+  display: flex;
+  width: max-content;
+  animation: marquee 50s linear infinite;
+}
+
+.marquee:hover .marquee__track {
+  animation-play-state: paused;
+}
+
+.marquee__group {
+  display: flex;
+  gap: 10px;
+  padding-right: 10px;
+}
+
+.marquee__item {
+  padding: 6px 14px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: rgba(10, 20, 45, 0.45);
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  color: var(--muted);
+  white-space: nowrap;
+}
+
+@keyframes marquee {
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+/* Overrides the global reduced-motion kill-switch: a slow, linear ticker is gentle enough to keep. */
+@media (prefers-reduced-motion: reduce) {
+  .marquee__track {
+    animation-duration: 90s !important;
+    animation-iteration-count: infinite !important;
+  }
 }
 
 .scroll-cue {
@@ -2327,7 +2439,7 @@ kbd {
   color: var(--muted);
   padding: 1px 7px;
   border-radius: 6px;
-  background: rgba(4, 9, 21, 0.7);
+  background: rgba(2, 5, 13, 0.75);
   transition: color 0.3s;
 }
 
@@ -3234,11 +3346,6 @@ kbd {
     justify-content: center;
   }
 
-  .hero__portrait {
-    order: 2;
-    width: min(200px, 52vw);
-    margin: 8px auto 12px;
-  }
 
   .hero__details {
     order: 3;
@@ -3251,53 +3358,26 @@ kbd {
 
   .hero__metrics {
     order: 4;
-    padding-left: 0;
     grid-template-columns: repeat(2, minmax(0, 1fr));
-    margin-top: 26px;
+    row-gap: 22px;
+    margin-top: 36px;
     width: 100%;
-    gap: 8px;
+  }
+
+  .marquee {
+    order: 5;
   }
 
   /* ==========================================================================
      TABLET (max-width: 980px): "GANATHE VIVEK" TYPOGRAPHY & SIZING
      ========================================================================== */
   .hero__name {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    gap: 0.06em;
-    width: 100%;
-    margin: 12px 0 10px;
-    line-height: 0.94;
-    text-align: center;
+    margin: 14px 0 12px;
+    font-size: clamp(2.4rem, 9vw, 4rem);
   }
 
   .hero__name-line {
-    display: block;
     white-space: normal;
-  }
-
-  /* --- GANATHE (First Name) - TABLET SIZE & WIDENESS --- */
-  .hero__name-line--first {
-    font-size: clamp(1.65rem, 6.2vw, 2.6rem);
-    /* <-- CHANGE GANATHE TABLET SIZE HERE */
-    font-weight: 700;
-    /* <-- GANATHE TABLET WEIGHT */
-    letter-spacing: 0.05em;
-    /* <-- GANATHE TABLET WIDENESS */
-    margin-bottom: 0;
-    color: #e5efff;
-  }
-
-  /* --- VIVEK (Last Name) - TABLET SIZE & WIDENESS --- */
-  .hero__name-line--accent {
-    font-size: clamp(2.45rem, 9.2vw, 3.8rem);
-    /* <-- CHANGE VIVEK TABLET SIZE HERE */
-    font-weight: 800;
-    /* <-- VIVEK TABLET WEIGHT */
-    letter-spacing: -0.01em;
-    /* <-- VIVEK TABLET WIDENESS */
   }
 
   .hero__lede {
@@ -3315,31 +3395,9 @@ kbd {
     gap: 8px;
   }
 
-  .hero__cta {
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-    justify-content: center;
-    align-items: center;
-    gap: 10px;
-    margin-top: 22px;
+  .hero__actions {
+    margin-top: 24px;
     width: 100%;
-  }
-
-  .hero__cta .btn {
-    flex: 0 1 auto;
-    min-width: 148px;
-    justify-content: center;
-  }
-
-  .metric:nth-child(3) {
-    border-left: 0;
-    padding-left: 0;
-  }
-
-  .metric:nth-child(n + 3) {
-    border-top: 1px solid var(--line);
-    margin-top: 14px;
   }
 
   .scroll-cue {
@@ -3375,7 +3433,7 @@ kbd {
   }
 
   .hud.is-scrolled {
-    background: linear-gradient(180deg, rgba(4, 9, 21, 0.96) 0%, rgba(4, 9, 21, 0.75) 85%, transparent 100%);
+    background: linear-gradient(180deg, rgba(2, 5, 13, 0.96) 0%, rgba(2, 5, 13, 0.75) 85%, transparent 100%);
     backdrop-filter: blur(12px);
     -webkit-backdrop-filter: blur(12px);
   }
@@ -3395,28 +3453,7 @@ kbd {
      ========================================================================== */
   .hero__name {
     margin: 10px 0 8px;
-    gap: 0.04em;
-  }
-
-  /* --- GANATHE (First Name) - MOBILE SIZE & WIDENESS --- */
-  .hero__name-line--first {
-    font-size: clamp(1.45rem, 5.8vw, 2.1rem);
-    /* <-- CHANGE GANATHE MOBILE SIZE HERE */
-    letter-spacing: 0.05em;
-    /* <-- GANATHE MOBILE WIDENESS */
-    font-weight: 700;
-    color: #e5efff;
-  }
-
-  /* --- VIVEK (Last Name) - MOBILE SIZE & WIDENESS --- */
-  .hero__name-line--accent {
-    font-size: clamp(2.2rem, 8.8vw, 3.3rem);
-    /* <-- CHANGE VIVEK MOBILE SIZE HERE */
-    font-weight: 800;
-    /* <-- VIVEK MOBILE WEIGHT */
-    letter-spacing: -0.01em;
-    /* <-- VIVEK MOBILE WIDENESS */
-    filter: drop-shadow(0 0 18px rgba(62, 231, 255, 0.28));
+    font-size: clamp(2.2rem, 10vw, 3rem);
   }
 
   .hero__lede {
@@ -3437,25 +3474,15 @@ kbd {
   }
 
   .hero__cta {
-    margin-top: 20px;
-    flex-direction: row;
-    flex-wrap: wrap;
-    align-items: center;
-    justify-content: center;
-    gap: 8px;
+    flex-direction: column;
+    align-items: stretch;
+    width: min(100%, 320px);
+    gap: 10px;
   }
 
-  .hero__cta .btn {
-    flex: 1 1 135px;
-    max-width: 190px;
-    padding: 10px 14px;
-    font-size: 0.86rem;
-    justify-content: center;
-  }
-
-  .hero__portrait {
-    width: min(180px, 48vw);
-    margin: 6px auto 10px;
+  .hero-btn {
+    min-height: 48px;
+    font-size: 0.94rem;
   }
 
   .hero__metrics {
@@ -3464,11 +3491,7 @@ kbd {
   }
 
   .metric {
-    padding: 12px 10px 0 0;
-  }
-
-  .metric+.metric {
-    padding-left: 10px;
+    padding: 0 6px;
   }
 
   .metric__value {
@@ -3476,7 +3499,8 @@ kbd {
   }
 
   .metric__label {
-    font-size: 0.78rem;
+    font-size: 0.72rem;
+    letter-spacing: 0.04em;
   }
 
   .section-head__note {
