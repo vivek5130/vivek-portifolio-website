@@ -189,8 +189,8 @@ export function Hero() {
 
       <motion.dl className="hero__metrics" initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.8, duration: 0.6, ease }}>
         {metrics.map((m) => (
-          <div className="metric" key={m.label}>
-            <dt className="mono dim">{m.source}</dt>
+          <div className="metric" key={m.label} title={m.source}>
+            <dt className="sr-only">{m.source}</dt>
             <dd>
               <span className="metric__value">
                 <CountUp to={m.value} suffix={m.suffix} />
