@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from "next";
 import { Sora, Inter, JetBrains_Mono, Syne, Mona_Sans, Bricolage_Grotesque, Monoton, Black_Ops_One, Cinzel, Playfair_Display } from "next/font/google";
 import { profile } from "@/lib/data";
 import { ChatWidget } from "@/components/chat/ChatWidget";
+import { Analytics } from "@vercel/analytics/next";
 import "./globals.css";
 
 const display = Sora({ subsets: ["latin"], weight: ["400", "500", "600", "700", "800"], variable: "--font-display-loaded", display: "swap" });
@@ -54,6 +55,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         </a>
         {children}
         <ChatWidget />
+        <Analytics />
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(personJsonLd) }} />
       </body>
     </html>
